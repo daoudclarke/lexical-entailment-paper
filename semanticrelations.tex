@@ -148,6 +148,19 @@ Here, we have distributional vectors for two words $v_A$ and $v_B$ and we want t
 
 \section{Methodology}
 
+\subsection{Data Sets}
+
+One of the challenges of this work has been to construct a data set which accurately and validly tests our hypotheses.  The data set needs to be balanced in many respects in order to prevent the supervised classifiers making use of characteristics of the data set other than the distributional representations of the individual words.  This would not only make it unfair to compare the supervised approaches with the unsupervised approaches but also make it unlikely that our results would be generalisable to other data.  Here we outline some of the requirements for the datasets.
+
+\begin{itemize}
+\item{There should be an equal number of positive and negative examples of a semantic relation.  Thus random guessing or labelling with the most frequently seen label in the training data will yield 50\% accuracy and precision.  An advantage of incorporating this requirement means that evaluation can be in terms of simple accuracy (or error rate).}
+\item{It should not be possible to do well simply by considering the distributional similarity of the terms.  Hence, the negative examples need to be pairs of semantically related (and therefore probably distributionally similar) words where the relationship under consideration does not hold.}
+\item{It should not be possible to do well by pre-supposing an entailment relation and guessing the direction.  For example, it has been shown that given a pair of entailing words selected from WordNet, over 70\% of the time the more frequent word is also the entailed word.}
+\item{In particular, it should not be possible to do well using ontological information learnt about one or both of the words from the training data which is not generalisable to their distributional representations.  For example, we are not interested in building a system which can see the training pairs <cat ISA mammal> and <mammal ISA animal> and infer that <cat ISA animal> .  Neither are we interested in building a system which learns that a particular word is near the top of the ontological hierarchy and can therefore do well by guessing that a particular pairing probably has an entailment relation.  For example, given mainy pairs such as <cat ISA animal>, <dog ISA animal>, a system which guessed <rabbit ISA animal> but not <animal ISA rabbit> would do better than random guessing.  Whilst both of these types of information could be useful in a hybrid system, in order to produce overall better results, they do not require any distributional information and therefore we would not be learning anything about the distributional features of animal which make it likely to be a hypernym. 
+\end{itemize}
+
+
+\subsubsection{BLESS}
 We have constructed two different data sets from the BLESS dataset \cite{Baroni2011}.  The BLESS dataset provides examples of hypernyms, co-hyponyms, meronyms and random unrelated words for each of 200 concrete, largely monosemous nouns.
 
 \begin{itemize}
@@ -157,7 +170,11 @@ We have constructed two different data sets from the BLESS dataset \cite{Baroni2
 
 In both cases the pairs are labelled as positive or negative for the specified semantic relation and in both cases there are equal ($+-1$) numbers of positive and negative examples.
 
+\subsection{Vector Representations}
+
 Distributional information was collected about all of the nouns from Wikipedia provided they had occurred 100 or more times in that corpus.  The features used were all grammatical dependency features (also occurring 100 or more times) based on the Stanford system of dependency parsing.  The value of each feature is the positive pointwise mutual information (PPMI) between the noun and the feature. The total number of noun vectors which can be harvested from Wikipedia with these parameters is 124,345 and for 99\% of the generated BLESS pairs, both nouns had associated vectors.   If a noun does not have an associated vector, the classifiers work on the reasonable assumption that these missing nouns have a zero vector.   For comparison we also generated vectors from GigaWord for nouns occurring 10 or more times in that corpus.  Here 13\% of the generated BLESS pairs contain at least one noun without an associated vector.  Random vectors were also constructed in order to be able to assess the impact of using distributional information over a system which simply learns the implied taxonomy in the training data and applies it to the test data.
+
+\subsection{Classifiers}
 
 We constructed linear SVMs for each of the vector operations outlined in Section \ref{sect:theory}.  We used linear SVMs for speed and simplicity since the point is to compare the different vector representations of the pairings.  For comparison, we also constructed a number of other classifiers, some of which are supervised and some of which are unsupervised or weakly supervised.  In Section \ref{sect:results} we report results for the classifiers described in Table \ref{table:classifiers}.
 
