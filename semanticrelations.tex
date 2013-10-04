@@ -20,11 +20,11 @@
 \end{abstract}
 \section{Introduction}
 
-Over recent years there has been much interest in the field of distributional semantics, drawing on the distributional hypothesis ---  words that occur in similar contexts tend to have similar meanings \cite{Harris1954}.   There is a vast body of work on the use of different similarity measures \cite{Lee1999,Weeds2003,Curran2004} and many researchers have automatically built thesauruses, i.e., lists of "nearest neighbours" and applied them generally with a good deal of success in a variety of applications.
+Over recent years there has been much interest in the field of distributional semantics, drawing on the distributional hypothesis ---  words that occur in similar contexts tend to have similar meanings \cite{Harris1954}.   There is a vast body of work on the use of different similarity measures \cite{Lee1999,Weeds2003,Curran2004} and many researchers have automatically built thesauruses, i.e., lists of ``nearest neighbours'' and applied them generally with a good deal of success in a variety of applications.
 
-In the early days there was a strong interest in how these automatically generated thesauruses compare with human-constructed gold standards such as WordNet and Roget\cite{Lin1998,Kilgarriff2000}.  More recently, the focus has tended to shift to building domain-specific thesauruses to alleviate the sparse-data problem in a variety of tasks such as sentiment classification \cite{Bollegala2011}.  
+In the early days there was a strong interest in how these automatically generated thesauruses compare with human-constructed gold standards such as WordNet and Roget \cite{Lin1998,Kilgarriff2000}.  More recently, the focus has tended to shift to building domain-specific thesauruses to alleviate the sparse-data problem in a variety of tasks such as sentiment classification \cite{Bollegala2011}.  
 
-However, primarily the focus has always been on "similarity" - identifying words which are similar to each other. However, semantic similarity encompasses a number of different relations.  Even if we consider only nouns, an automatically generated thesaurus will tend to return a mix of synonyms, antonyms, hyponyms, hypernyms, co-hyponyms, meronyms and other topically related words.  Some of these relations are symmetric whereas others are not.  For example, hyponymy, and its converse hypernymy, is the backbone of the majority of taxonomies and ontologies such as WordNet.  We can say a \texttt{cat} ISA \texttt{animal}  but we cannot say an \texttt{animal} ISA \texttt{cat}.  This ISA relation, which we can think of  as describing a lexical entailment\cite{Geffet2005}  between two words, is asymmetric.  However, many semantically related words are in co-hyponyms, that is, they share a common ancestor in the ontology.  Since \texttt{cat} ISA \texttt{animal} and \texttt{dog} ISA \texttt{animal}, we would say that \texttt{cat} and \texttt{dog} are related by co-hyponymy.  Co-hyponymy, synonymy and antonymy are all symmetric relations 
+However, primarily the focus has always been on ``similarity'' - identifying words which are similar to each other. However, semantic similarity encompasses a number of different relations.  Even if we consider only nouns, an automatically generated thesaurus will tend to return a mix of synonyms, antonyms, hyponyms, hypernyms, co-hyponyms, meronyms and other topically related words.  Some of these relations are symmetric whereas others are not.  For example, hyponymy, and its converse hypernymy, is the backbone of the majority of taxonomies and ontologies such as WordNet.  We can say a \texttt{cat} ISA \texttt{animal}  but we cannot say an \texttt{animal} ISA \texttt{cat}.  This ISA relation, which we can think of  as describing a lexical entailment\cite{Geffet2005}  between two words, is asymmetric.  However, many semantically related words are in co-hyponyms, that is, they share a common ancestor in the ontology.  Since \texttt{cat} ISA \texttt{animal} and \texttt{dog} ISA \texttt{animal}, we would say that \texttt{cat} and \texttt{dog} are related by co-hyponymy.  Co-hyponymy, synonymy and antonymy are all symmetric relations 
 
 \begin{table}[ht]
 \begin{tabular}{|c|c|c|}
@@ -65,11 +65,18 @@ Most, but not all, measures of distributional similarity assume that similarity 
 
 Sentence A textually entails sentence B but B does not textually entail A.  We believe that the ability to be able to automatically distinguish different semantic relations using distributional information, in particular those concerned with lexical entailment, is crucial if distributional semantics is to be used successfully in systems which are concerned with the meaning of phrases and sentences.
 
-In this work we show that it is possible to train a support vector machine (SVM) to identify pairs of words $<A,B>$ where a lexical entailment holds from word A to word B from other pairs where there may be an entailment in the other direction, some other semantic relation or no relation at all.  The perfomance of this supervised method is far superior to the existing state-of-the-art, which tend to draw on the notion of distributional generality as described by \cite{Weeds2004}, used either in an unsupervised or weakly supervised setting.  We are also able to train an SVM to identify co-hyponym pairs from other pairs where there is some other semantic relation (hypernymy, hyponymy or meronymy) or no relation at all.  We also experiment with vectors drawn from different sources and show that the quality of the vectors has significant impact on the performance of the classifier.  
+In this work we show that it is possible to train a support vector machine (SVM) to identify pairs of words $\langle A,B\rangle$ where a lexical entailment holds from word A to word B from other pairs where there may be an entailment in the other direction, some other semantic relation or no relation at all.  The perfomance of this supervised method is far superior to the existing state-of-the-art, which tend to draw on the notion of distributional generality as described by \cite{Weeds2004}, used either in an unsupervised or weakly supervised setting.  We are also able to train an SVM to identify co-hyponym pairs from other pairs where there is some other semantic relation (hypernymy, hyponymy or meronymy) or no relation at all.  We also experiment with vectors drawn from different sources and show that the quality of the vectors has significant impact on the performance of the classifier.
+
+Part of our motivation for this work is that we are interested in the
+problem of how to compose distributional representations of meaning,
+which has recently received a lot of interest
+\cite{Widdows:08,Mitchell:08,Baroni2010,Grefenstette:11,Socher:12}. Our
+hope is that we can eventually extend our system to determine
+entailment between phrases and sentences.
 
 \section{Related Work}
 
-Weeds, Weir and McCarthy \shortcite{Weeds2004} proposed a notion of distributional generality, observing that more general words tend to occur in a larger variety of contexts than more specific words.  In our example, we would expect to be able to replace any occurrence of \texttt{cat} with \texttt{animal} and so all of the contexts of \texttt{cat} must be plausible contexts for \texttt{animal}.  However, not all of the contexts of \texttt{animal} would be plausible for \texttt{cat}, e.g., "the monstrous animal barked at the intruder".  Weeds, Weir and McCarthy attempt to capture this asymmetry by framing word similarity in terms of co-occurrence retrieval \cite{Weeds2003}, where precision and recall are defined as:
+Weeds, Weir and McCarthy \shortcite{Weeds2004} proposed a notion of distributional generality, observing that more general words tend to occur in a larger variety of contexts than more specific words.  In our example, we would expect to be able to replace any occurrence of \texttt{cat} with \texttt{animal} and so all of the contexts of \texttt{cat} must be plausible contexts for \texttt{animal}.  However, not all of the contexts of \texttt{animal} would be plausible for \texttt{cat}, e.g., ``the monstrous animal barked at the intruder''.  Weeds, Weir and McCarthy attempt to capture this asymmetry by framing word similarity in terms of co-occurrence retrieval \cite{Weeds2003}, where precision and recall are defined as:
 
 \[
 P_{ww}(u,v) = \frac{\Sigma_{f \in F(u) \cap F(v)} I(u,f)}{\Sigma_{f \in F(u)} I(u,f)}
@@ -93,7 +100,7 @@ P_{cl}(u,v) = \frac{\Sigma_{f \in F(u) \cap F(v)} min(I(u,f),I(v,f))}{\Sigma_{f 
 R_{cl}(u,v) = \frac{\Sigma_{f \in F(u) \cap F(v)} min(I(u,f),I(v,f))}{\Sigma_{f \in F(v)} I(v,f)}
 \]
 
-Lenci and Benotto \newcite{Lenci2012} took the notion further and hypothesised that more general terms should have high recall and low precision, which would thus make it possible to distinguish them from other related terms such as synonyms and co-hyponyms.  They proposed a variant of the Clarke \shortcite{Clarke2007} measure to identify hypernyms:
+\newcite{Lenci2012} took the notion further and hypothesised that more general terms should have high recall and low precision, which would thus make it possible to distinguish them from other related terms such as synonyms and co-hyponyms.  They proposed a variant of the \newcite{Clarke2007} measure to identify hypernyms:
 
 \[
 invCL(u,v) = \sqrt[2]{P_{cl}(u,v)*(1-R_{clarke}(u,v))}
@@ -101,11 +108,28 @@ invCL(u,v) = \sqrt[2]{P_{cl}(u,v)*(1-R_{clarke}(u,v))}
 
 On an evaluation using the BLESS dataset \cite{Baroni2011}, they showed this measure was significantly better at distinguishing hypernyms from other semantic relations than the measures of Weeds, Weir and McCarthy \shortcite{Weeds2004} and Clarke \shortcite{Clarke2007}.
 
-Geffet and Dagan \shortcite{Geffet2005} adopted an approach, referred to as \emph{feature inclusion} which extends the rationale of Weeds et al. \cite{Weeds2004} to the lexical entailment setting.    Using data collected from the web they were able to demonstrate a strong correlation between the complete inclusion of prominent features and lexical entailment.  However, they were unable to assess this using an off-line corpus due to data sparseness.
+Geffet and Dagan \shortcite{Geffet2005} adopted an approach, referred to as \emph{feature inclusion} which extends the rationale of \newcite{Weeds2004} to the lexical entailment setting.    Using data collected from the web they were able to demonstrate a strong correlation between the complete inclusion of prominent features and lexical entailment.  However, they were unable to assess this using an off-line corpus due to data sparseness.
 
 Szpektor and Dagan \shortcite{Szpektor2008} found that the $P_{ww}$ tends to promote relationships between infrequent words with narrow templates (i.e., ones with relatively few distinct context features).  They proposed using the geometric average of $P_{ww}$ and the symmetric Lin similarity measure in order to penalise low frequency words.   
 
 Kotlerman et al. \shortcite{Kotlerman2010} provide a good overview of using directional measures of distributional similarity to perform lexical inference.  In particular, they propose adapting a common IR evalation method, \emph{Average Precision} to the problem of identifying lexical inference and using the balancing approach of Szpektor and Dagan \shortcite{Szpektor2008} to demote similarities for narrow feature vectors.  They show that all of the asymmetric similarity measures previously proposed perform much better than symmetric similarity measures on a directionality detection experiment and that their method outperforms the others with statistical significance.
+
+The Stanford WordNet project \cite{Snow:04} expands the WordNet
+taxonomy by analysing large corpora to find patterns that are
+indicative of hyponymy. For example, the pattern ``$\mathit{NP}_X$ and
+other $\mathit{NP}_Y$'' is an indication that $\mathit{NP}_X$ is a
+$\mathit{NP}_Y$, i.e.~that $\mathit{NP}_X$ is a hyponym of
+$\mathit{NP}_Y$. They use machine learning to identify other such
+patterns from known hyponym-hypernym pairs, and then use these
+patterns to find new relations in the corpus. They enforce the
+transitivity relation of the taxonomy by only searching over valid
+taxonomies, and evaluating the likelihood of each taxonomy given the
+available evidence \cite{Snow:06}. Whilst this approach is similar to
+ours in that it is a supervised method of learning semantic relations,
+it relies on having features for occurrences of pairs of terms,
+whereas ours relies only on vectors for terms themselves, making it
+more amenable to our planned application composing distributional
+representations of meaning.
 
 Also of note, Mikolov et al. \shortcite{Mikolov2013} propose a vector offset method to capture syntactic and semantic regularities between word representations learnt by a recurrent neural network language model.
 
