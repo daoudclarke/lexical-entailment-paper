@@ -150,31 +150,9 @@ Here, we have distributional vectors for two words $v_A$ and $v_B$ and we want t
 
 \section{Methodology}
 
-\subsection{Data Sets}
-
-One of the challenges of this work has been to construct a data set which accurately and validly tests our hypotheses.  The data set needs to be balanced in many respects in order to prevent the supervised classifiers making use of characteristics of the data set other than the distributional representations of the individual words.  This would not only make it unfair to compare the supervised approaches with the unsupervised approaches but also make it unlikely that our results would be generalisable to other data.  Here we outline some of the requirements for the datasets.
-
-\begin{itemize}
-\item There should be an equal number of positive and negative examples of a semantic relation.  Thus random guessing or labelling with the most frequently seen label in the training data will yield 50\% accuracy and precision.  An advantage of incorporating this requirement means that evaluation can be in terms of simple accuracy (or error rate).
-\item It should not be possible to do well simply by considering the distributional similarity of the terms.  Hence, the negative examples need to be pairs of semantically related (and therefore probably distributionally similar) words where the relationship under consideration does not hold.
-\item It should not be possible to do well by pre-supposing an entailment relation and guessing the direction.  For example, it has been shown that given a pair of entailing words selected from WordNet, over 70\% of the time the more frequent word is also the entailed word.
-\item In particular, it should not be possible to do well using ontological information learnt about one or both of the words from the training data which is not generalisable to their distributional representations.  For example, we are not interested in building a system which can see the training pairs \pair{cat}{animal} and \pair{mammal}{animal} and infer that \pair{cat}{animal}.  Neither are we interested in building a system which learns that a particular word is near the top of the ontological hierarchy and can therefore do well by guessing that a particular pairing probably has an entailment relation.  For example, given mainy pairs such as \pair{cat}{animal}, \pair{dog}{animal}, a system which guessed \pair{rabbit}{animal} but not \pair{animal}{rabbit} would do better than random guessing.  Whilst both of these types of information could be useful in a hybrid system, in order to produce overall better results, they do not require any distributional information and therefore we would not be learning anything about the distributional features of animal which make it likely to be a hypernym.
-\end{itemize}
-
-
-\subsubsection{BLESS}
-We have constructed two different data sets from the BLESS dataset \cite{Baroni2011}.  The BLESS dataset provides examples of hypernyms, co-hyponyms, meronyms and random unrelated words for each of 200 concrete, largely monosemous nouns.
-
-\begin{itemize}
-\item[ent]{For each noun in the BLESS dataset, 80\% of the hypernyms were randomly selected to provide positive examples of entailment.  The remaining hypernyms for the given noun were reversed and taken with the co-hyponyms, meronyms and random words to form negative examples of entailment.  A filter was applied to ensure that duplicate pairs were not included (e.g., [\texttt{cat},\texttt{animal},1] and [\texttt{animal},\texttt{cat},0] is disallowed). The result was a set of 1976 labelled pairs of nouns.}
-\item[coord]{For each noun in the BLESS dataset, the co-hyponyms were taken as positive examples of this relation.  The same total number (split evenly between) of hypernyms, meronyms and random words was taken to form the negative examples.  The order of 50\% of the pairs was reversed and again duplicate pairs were disallowed, resulting in a set of 5835 labelled pairs of nouns.}
-\end{itemize}
-
-In both cases the pairs are labelled as positive or negative for the specified semantic relation and in both cases there are equal ($+-1$) numbers of positive and negative examples.
-
 \subsection{Vector Representations}
 
-Distributional information was collected about all of the nouns from Wikipedia provided they had occurred 100 or more times in that corpus.  The features used were all grammatical dependency features (also occurring 100 or more times) based on the Stanford system of dependency parsing.  The value of each feature is the positive pointwise mutual information (PPMI) between the noun and the feature. The total number of noun vectors which can be harvested from Wikipedia with these parameters is 124,345 and for 99\% of the generated BLESS pairs, both nouns had associated vectors.   If a noun does not have an associated vector, the classifiers work on the reasonable assumption that these missing nouns have a zero vector.   For comparison we also generated vectors from GigaWord for nouns occurring 10 or more times in that corpus.  Here 13\% of the generated BLESS pairs contain at least one noun without an associated vector.  Random vectors were also constructed in order to be able to assess the impact of using distributional information over a system which simply learns the implied taxonomy in the training data and applies it to the test data.
+Distributional information was collected about all of the nouns from Wikipedia provided they had occurred 100 or more times in that corpus.  The features used were all grammatical dependency features (also occurring 100 or more times) based on the Stanford system of dependency parsing.  The value of each feature is the positive pointwise mutual information (PPMI) between the noun and the feature. The total number of noun vectors which can be harvested from Wikipedia with these parameters is 124,345.   For comparison we also generated vectors from GigaWord for nouns occurring 10 or more times in that corpus.   Random 1000 dimensional vectors were also constructed in order to be able to assess the impact of using distributional information over a system which simply learns the implied taxonomy in the training data and applies it to the test data.  The dimensionality of the random vectors was chosen to be 1000 since this exceeds the average dimensionality of the Wikipedia vectors.
 
 \subsection{Classifiers}
 
@@ -187,8 +165,10 @@ linsvm\_DIFF&A linear SVM trained on the vector difference $v_B - v_A$\\
 linsvm\_MULT&A linear SVM trained on the pointwise product vector $v_B * v_A$\\
 linsvm\_ADD&A linear SVM trained on the vector sum $v_B + v_A$\\
 linsvm\_CAT&A linear SVM trained on the vector concatentation $[v_B,v_A]$\\
+linsvm\_SINGLE&A linear SVM trained on the vector $v_B$\\
 knn\_DIFF&The difference of the two vectors is calculated (as in linsvm\_DIFF) and the label of the test point is predicted based on the labels of the k closest points in the training data. k is optimised between 1 and 50.\\
 widthdiff&If B's vector representation is \textit{wider} (i.e., B has more distinct features) than A's vector representation then A is predicted to entail B. \footnote{We also implemented a weakly supervised version where B's vector representation need to be wider by more than a learnt parameter but this did not improve results}\\
+singlewidth&If B's vector representation's width is greater than a learnt parameter then it is predicted to be entailed by A.\\
 cosineP&If the cosine similarity of A and B's vector representations (using PPMI) is greater than a learnt parameter, A is predicted to entail B.\footnote{We also implemented the Lin similarity neasure \cite{Lin1998} but this performed consistently a few percentage points worse than cosine using PPMI.} \\
 CRdiff&If $P_{ww}(A,B) > R_{ww}(A,B)$, then A is predicted to entail B.  \footnote{We also implemented a weakly supervised version where a parameter was learnt for the difference between precision and recall but this did not improve results.}\\
 clarkediff&The \cite{Clarke2007} variation of CRDiff using $P_{cl}$ and $R_{cl}$\\
@@ -197,6 +177,43 @@ invCLP&Based on \cite{Lenci2012}, if invCL(A,B) is greater than a learnt paramet
 \caption{Implemented classifiers}
 \label{table:classifiers}
 \end{table}
+
+\subsection{Data Sets}
+
+One of the challenges of this work has been to construct a data set which accurately and validly tests our hypotheses.  The data set needs to be balanced in many respects in order to prevent the supervised classifiers making use of characteristics of the data set other than the distributional representations of the individual words.  This would not only make it unfair to compare the supervised approaches with the unsupervised approaches but also make it unlikely that our results would be generalisable to other data.  Here we outline some of the requirements for the datasets.
+
+\begin{itemize}
+\item There should be an equal number of positive and negative examples of a semantic relation.  Thus random guessing or labelling with the most frequently seen label in the training data will yield 50\% accuracy and precision.  An advantage of incorporating this requirement means that evaluation can be in terms of simple accuracy (or error rate).
+\item It should not be possible to do well simply by considering the distributional similarity of the terms.  Hence, the negative examples need to be pairs of semantically related (and therefore probably distributionally similar) words where the relationship under consideration does not hold.
+\item It should not be possible to do well by pre-supposing an entailment relation and guessing the direction.  For example, it has been shown that given a pair of entailing words selected from WordNet, over 70\% of the time the more frequent word is also the entailed word.
+\item In particular, it should not be possible to do well using ontological information learnt about one or both of the words from the training data which is not generalisable to their distributional representations.  For example, we are not interested in building a system which can see the training pairs \pair{cat}{animal} and \pair{mammal}{animal} and infer that \pair{cat}{animal}.  Neither are we interested in building a system which learns that a particular word is near the top of the ontological hierarchy and can therefore do well by guessing that a particular pairing probably has an entailment relation.  For example, given mainy pairs such as \pair{cat}{animal}, \pair{dog}{animal}, a system which guessed \pair{rabbit}{animal} but not \pair{animal}{rabbit} would do better than random guessing.  Whilst both of these types of information could be useful in a hybrid system, in order to produce overall better results, they do not require any distributional information and therefore we would not be learning anything about the distributional features of animal which make it likely to be a hypernym.
+\end{itemize}
+
+The importance of these requirements is demonstrated by our initial results with our BLESS datasets.
+
+\subsubsection{BLESS}
+We have constructed two different data sets from the BLESS dataset \cite{Baroni2011}.  The BLESS dataset provides examples of hypernyms, co-hyponyms, meronyms and random unrelated words for each of 200 concrete, largely monosemous nouns.
+
+\begin{itemize}
+\item[$ent_{BLESS}$]{For each noun in the BLESS dataset, 80\% of the hypernyms were randomly selected to provide positive examples of entailment.  The remaining hypernyms for the given noun were reversed and taken with the co-hyponyms, meronyms and random words to form negative examples of entailment.  A filter was applied to ensure that duplicate pairs were not included (e.g., [\texttt{cat},\texttt{animal},1] and [\texttt{animal},\texttt{cat},0] is disallowed). The result was a set of 1976 labelled pairs of nouns.}
+\item[$coord_{BLESS}$]{For each noun in the BLESS dataset, the co-hyponyms were taken as positive examples of this relation.  The same total number (split evenly between) of hypernyms, meronyms and random words was taken to form the negative examples.  The order of 50\% of the pairs was reversed and again duplicate pairs were disallowed, resulting in a set of 5835 labelled pairs of nouns.}
+\end{itemize}
+
+In both cases the pairs are labelled as positive or negative for the specified semantic relation and in both cases there are equal ($+-1$) numbers of positive and negative examples.
+
+For 99\% of the generated BLESS pairs, both nouns had associated vectors harvested from WikiPedia.   This figure drops to 87\% when vectors are harvested from Gigaword. If a noun does not have an associated vector, the classifiers work on the reasonable assumption that these missing nouns have a zero vector.  
+
+\subsubsection{WordNet}
+
+We automatically constructed four more datasets using WordNet.  Whilst these datasets are similar in size to the BLESS datasets they more fully fulfil the requirements laid out above.  In order to impose these restrictions on the BLESS datasets would lead to very small datasets since information is only provided for 200 nouns.  First, we made a list of all non-rare, largely monsosemous words single word terms in WordNet.  To be considered non-rare, a word needed to have occurred in SemCor at least once (i.e., frequency information is provided about it in the WordNet package) and to have occurred in WikiPedia at least 100 times.  To be considered largely monosemous, the predominant sense of the word needed to account for over 50\% of the occurrences in the SemCor frequency information provided with WordNet.  This led to a list of 7613 words.
+
+\begin{itemize}
+\item[$ent_{WN-hyper}$]{Find pairs <A,B> in the list where B is a direct hypernym of A.  Attempt to add each found pair either as a positive or a negative roughly in the ration 2:1 provided that the reverse pairing has not already been added and provided that each word has not previously been used in that position.  Find co-hyponym pairs (i.e., words which share a direct hypernym) within the list.  Attempt to add each found pair to the dataset (as a negative) provided the reverse pairing has not already been added and provided that neither word has already been seen in that position in a pairing (either in the entailment pairs or the co-hyponym pairs).  We selected the same number of co-hyponym pairs as hypernym-hyponym negatives to make an entailment set containing a total of 2104 pairs.}
+\item[$coord_{WN-hyper}$]{As $ent_{WN-hyper}$ but we selected the same number of co-hyponym pairs as the total number of entailment pairs (in either direction).  This led to a coordinate set containing a total of 3156 pairs.}
+\item[$ent_{WN-ancestor}$]{As $ent_{WN-hyper}$ but allowing arbitrary ancestors of words to be considered as examples of the entailment relation rather than just direct hypernyms.  This led to an entailment set containing a total of 2564 pairs.  The average path distance between the entailment pairs in this set is 1.64 (compared to 1 for the $ent_{WN-hyper}$ set).}
+\item[$coord_{WN-ancestor}$]{As $ent_{WN-ancestor}$ but we selected the same number of co-hyponym pairs as the total number of entailment pairs (in either direction).  This led to a coordinate set containing a total of 3771 pairs.}
+\end{itemize}
+
 
 \section{Results}
 \label{sect:results}
