@@ -22,9 +22,9 @@
 \end{abstract}
 \section{Introduction}
 
-Over recent years there has been much interest in the field of distributional semantics, drawing on the distributional hypothesis: words that occur in similar contexts tend to have similar meanings \cite{Harris1954}.   There is a vast body of work on the use of different similarity measures \cite{Lee1999,Weeds2003,Curran2004} and many researchers have built thesauruses (i.e., lists of ``nearest neighbours'') automatically and applied them in a variety of applications, generally with a good deal of success.
+Over recent years there has been much interest in the field of distributional semantics, drawing on the distributional hypothesis: words that occur in similar contexts tend to have similar meanings \cite{Harris1954}.   There is a vast body of work on the use of different similarity measures \cite{Lee1999,Weeds2003,Curran2004} and many researchers have built thesauri (i.e., lists of ``nearest neighbours'') automatically and applied them in a variety of applications, generally with a good deal of success.
 
-In early research there was much interest in how these automatically generated thesauruses compare with human-constructed gold standards such as WordNet and Roget \cite{Lin1998,Kilgarriff2000}.  More recently, the focus has tended to shift to building domain-specific thesauruses to alleviate the sparse-data problem {\em in a variety of tasks such as sentiment classification \cite{Bollegala2011}\/}. {\bf comment: this is a bit specific - other tasks should be added, at least.}.  
+In early research there was much interest in how these automatically generated thesauri compare with human-constructed gold standards such as WordNet and Roget \cite{Lin1998,Kilgarriff2000}.  More recently, the focus has tended to shift to building domain-specific thesauri to alleviate the sparse-data problem.  Distributional thesauri have been used in a wide variety of areas including sentiment classification~\cite{Bollegala2011}, WSD~\cite{miller-EtAl:2012:PAPERS,khapra-EtAl:2010:ACL}, PP attachment~\cite{Calvo05distributionalthesaurus}, automatic confusion set generation~\cite{xue-hwa:2012:PAPERS}, textual entailment~\cite{berant-dagan-goldberger:2010:ACL}, co-reference resolution~\cite{lee-EtAl:2012:EMNLP-CoNLL}, predicting semantic compositionality~\cite{bergsma-EtAl:2010:EMNLP}, acquisition of semantic lexicons~\cite{mcintosh:2010:EMNLP}, conversation entailment~\cite{zhang-chai:2010:EMNLP}, semantic role classification~\cite{zapirain-EtAl:2010:NAACLHLT}, lexical substitution~\cite{szarvas-biemann-gurevych:2013:NAACL-HLT}, taxonomy induction~\cite{fountain-lapata:2012:NAACL-HLT}, detection of visual text~\cite{dodge-EtAl:2012:NAACL-HLT}, and parser lexicalisation~\cite{rei-briscoe:2013:NAACL-HLT}.  
 
 A primary focus of distributional semantics has been on ``similarity'': identifying words which are similar to each other. However, semantic similarity encompasses a variety of different lexico-semantic and topical relations.  Even if we just consider nouns, an automatically generated thesaurus will tend to return a mix of synonyms, antonyms, hyponyms, hypernyms, co-hyponyms, meronyms and other topically related words.  Some of these relations are symmetric whereas others are not.  For example, the hyponymy relation (and converse hypernymy) forms the ISA backbone of the majority of taxonomies and ontologies such as WordNet.  We can say that a \texttt{cat} ISA \texttt{animal}  but we cannot say an \texttt{animal} ISA \texttt{cat}.  The ISA relation, which we can think of  as describing a lexical entailment\cite{Geffet2005}  between two words, is asymmetric. An example of a symmetric relation between words is co-hyponomy. Two words are co-hyponyms if they share a common ancestor in the ontology. 
 For example, since \texttt{cat} ISA \texttt{animal} and \texttt{dog} ISA \texttt{animal}, we would say that \texttt{cat} and \texttt{dog} are related by co-hyponymy.  Other symmetrical relations include, synonymy and antonymy. 
@@ -66,18 +66,14 @@ Most, but not all, measures of distributional similarity assume that similarity 
 \item[B]{The animal ran across the road.}
 \end{itemize}
 
-Sentence A textually entails sentence B but B does not textually entail A. In an example such as this, the ability to determine whether entailment holds between the sentences and in which direction depends on the ability to identify lexical entailment (i.e. hyponymy). We hypothesise that the ability to automatically distinguish different semantic relations using distributional information, in particular those concerned with lexical entailment, is crucial if distributional semantics is to be used successfully in systems which are concerned with the meaning of phrases and sentences.
+Sentence A textually entails sentence B but B does not textually entail A. In an example such as this, the ability to determine whether entailment holds between the sentences and in which direction depends on the ability to identify lexical entailment (i.e. hyponymy). Whilst there has been some interest in directional measures of distributional similarity (see \ref{sect:relwork}), the problem still remains an open one.  Further, out work is largely motivated by the problem of how to compose distributional representations of meaning, which has recently received a lot of interest \cite{Widdows:08,Mitchell:08,Baroni2010,Grefenstette:11,Socher:12}.  We hypothesise that the ability to automatically distinguish different semantic relations using distributional information, in particular those concerned with lexical entailment, is crucial if distributional semantics is to be used successfully in systems which are concerned with the meaning of phrases and sentences.
 
 {\bf Comment: update} In this work we show that it is possible to train a support vector machine (SVM) to distinguish pairs of words $\langle A,B\rangle$ where $A$ lexically entails $B$ from other pairs where $B$ entails $A$, or some other semantic relation or no relation at all holds.  The perfomance of this supervised method is far superior to the existing state-of-the-art, which tends to draw on the notion of distributional generality as described by \cite{Weeds2004}, used either in an unsupervised or weakly supervised setting.  In addition, we show that it is possible to train an SVM to identify co-hyponym pairs from pairs where there is some other semantic relation (hypernymy, hyponymy or meronymy) or no relation at all. Experiments with vectors drawn from different sources indicate that the quality of the vectors has a significant impact on the performance of the classifier.
 
-{\em Part of our motivation for this work is that we are interested in the
-problem of how to compose distributional representations of meaning,
-which has recently received a lot of interest
-\cite{Widdows:08,Mitchell:08,Baroni2010,Grefenstette:11,Socher:12}. Our
-hope is that we can eventually extend our system to determine
-entailment between phrases and sentences.} {\bf Comment: why only 'part'? Can we be more definite about this or explain further about our motivation? It sounds a bit weak. Similary for 'hope'.}
-
 \section{Related Work}
+\label{sect:relwork}
+
+Lee \shortcite{Lee1999} first noted that the substitutability of one word for another was intuitively asymmetric when she proposed the alpha-skew divergence measure, an asymmetric version of the Kullback-Leibler divergence measure.  She found that this measure improved results in language modelling, when a word's distribution is smoothed using the distributions of its nearest neighbours.
 
 Weeds, Weir and McCarthy \shortcite{Weeds2004} proposed a notion of distributional generality, observing that more general words tend to occur in a larger variety of contexts than more specific words.  In our example, we would expect to be able to replace any occurrence of \texttt{cat} with \texttt{animal} and so all of the contexts of \texttt{cat} must be plausible contexts for \texttt{animal}.  However, not all of the contexts of \texttt{animal} would be plausible for \texttt{cat}, e.g., ``the monstrous animal barked at the intruder''.  Weeds, Weir and McCarthy attempt to capture this asymmetry by framing word similarity in terms of co-occurrence retrieval \cite{Weeds2003}, where precision and recall are defined as:
 
@@ -134,7 +130,9 @@ whereas ours relies only on vectors for terms themselves, making it
 more amenable to our planned application composing distributional
 representations of meaning.
 
-Also of note, Mikolov et al. \shortcite{Mikolov2013} propose a vector offset method to capture syntactic and semantic regularities between word representations learnt by a recurrent neural network language model.
+Most recently, Rei and Briscoe \shortcite{rei-briscoe:2013:NAACL-HLT} note that hyponyms are well suited for lexical substitution.  In their experiments with smoothing edge scores for parser lexicalisation, they find that a directional similarity measure, referred to as \emph{WeightedCosine}, which is designed to better capture hyponymy relations and incorporates additional directional weight into the standard cosine measure, performs best.
+
+Also of note, Mikolov et al. \shortcite{Mikolov2013} propose a vector offset method to capture syntactic and semantic regularities between word representations learnt by a recurrent neural network language model.  Yih et al. \shortcite{yih-zweig-platt:2012:EMNLP-CoNLL} present a method for distinguishing synonyms and antonyms.  They do this by inducing polarity in a document-term matrix before applying Latent Semantic Analysis (LSA).
 
 \section{Theory}
 \label{sect:theory}
@@ -159,25 +157,28 @@ Distributional information was collected about all of the nouns from Wikipedia p
 
 We constructed linear SVMs for each of the vector operations outlined in Section \ref{sect:theory}.  We used linear SVMs for speed and simplicity since the point is to compare the different vector representations of the pairings.  For comparison, we also constructed a number of other classifiers, some of which are supervised and some of which are unsupervised or weakly supervised.  In Section \ref{sect:results} we report results for the classifiers described in Table \ref{table:classifiers}.
 
-\begin{table}[ht]
+\begin{table*}[ht]
 \centering
-\begin{tabular}{p{2cm} p{5.5cm}}
-linsvm\_DIFF&A linear SVM trained on the vector difference $v_B - v_A$\\
-linsvm\_MULT&A linear SVM trained on the pointwise product vector $v_B * v_A$\\
-linsvm\_ADD&A linear SVM trained on the vector sum $v_B + v_A$\\
-linsvm\_CAT&A linear SVM trained on the vector concatentation $[v_B,v_A]$\\
-linsvm\_SINGLE&A linear SVM trained on the vector $v_B$\\
-knn\_DIFF&The difference of the two vectors is calculated (as in linsvm\_DIFF) and the label of the test point is predicted based on the labels of the k closest points in the training data. k is optimised between 1 and 50.\\
-widthdiff&If B's vector representation is \textit{wider} (i.e., B has more distinct features) than A's vector representation then A is predicted to entail B. \footnote{We also implemented a weakly supervised version where B's vector representation need to be wider by more than a learnt parameter but this did not improve results}\\
-singlewidth&If B's vector representation's width is greater than a learnt parameter then it is predicted to be entailed by A.\\
-cosineP&If the cosine similarity of A and B's vector representations (using PPMI) is greater than a learnt parameter, A is predicted to entail B.\footnote{We also implemented the Lin similarity neasure \cite{Lin1998} but this performed consistently a few percentage points worse than cosine using PPMI.} \\
-CRdiff&If $P_{ww}(A,B) > R_{ww}(A,B)$, then A is predicted to entail B.  \footnote{We also implemented a weakly supervised version where a parameter was learnt for the difference between precision and recall but this did not improve results.}\\
-clarkediff&The \cite{Clarke2007} variation of CRDiff using $P_{cl}$ and $R_{cl}$\\
-invCLP&Based on \cite{Lenci2012}, if invCL(A,B) is greater than a learnt parameter, A is predicted to entail B.\\
+\begin{tabular}{|c|p{14cm}|}
+\hline
+\emph{linsvmDIFF}& A linear SVM trained on the vector difference $v_B - v_A$\\
+\emph{linsvmMULT}& A linear SVM trained on the pointwise product vector $v_B * v_A$\\
+\emph{linsvmADD}& A linear SVM trained on the vector sum $v_B + v_A$\\
+\emph{linsvmCAT}& A linear SVM trained on the vector concatentation $[v_B,v_A]$\\
+\emph{linsvmSINGLE}& A linear SVM trained on the vector $v_B$\\
+\emph{knnDIFF}& The difference of the two vectors is calculated (as in linsvm\_DIFF) and the label of the test point is predicted based on the labels of the k closest points in the training data. k is optimised between 1 and 50.\\
+\emph{widthdiff}& If B's vector representation is \textit{wider} (i.e., B has more distinct features) than A's vector representation then rel(A,B) is predicted to hold.  We also experimented with a weakly supervised version where B's vector representation need to be wider by more than a learnt parameter but this did not improve results.\\
+\emph{singlewidth}& If B's vector representation's width is greater than a learnt parameter then rel(A,B) is predicted to hold.\\
+\emph{cosineP}& If the cosine similarity of A and B's vector representations (using PPMI) is greater than a learnt parameter, rel(A,B) is predicted to hold.\\
+\emph{linP}&If the Lin similarity \cite{Lin1998} pf A and B's vector representations is greater than a learnt parameter, rel(A,B) is predicted to hold.\\
+\emph{CRdiff}& If $P_{ww}(A,B) > R_{ww}(A,B)$, then A is predicted to entail B.  We also experimented with a weakly supervised version where a parameter was learnt for the difference between precision and recall but this did not improve results.\\
+\emph{clarkediff}& The \cite{Clarke2007} variation of CRDiff using $P_{cl}$ and $R_{cl}$\\
+\emph{invCLP}& Based on \cite{Lenci2012}, if invCL(A,B) is greater than a learnt parameter, rel(A,B) is predicted to hold.\\
+\hline
 \end{tabular}
 \caption{Implemented classifiers}
 \label{table:classifiers}
-\end{table}
+\end{table*}
 
 \subsection{Data Sets}
 
@@ -195,24 +196,21 @@ The importance of these requirements is demonstrated by our initial results with
 \subsubsection{BLESS}
 We have constructed two different data sets from the BLESS dataset \cite{Baroni2011}.  The BLESS dataset provides examples of hypernyms, co-hyponyms, meronyms and random unrelated words for each of 200 concrete, largely monosemous nouns.
 
-\begin{itemize}
-\item[$ent_{BLESS}$]{For each noun in the BLESS dataset, 80\% of the hypernyms were randomly selected to provide positive examples of entailment.  The remaining hypernyms for the given noun were reversed and taken with the co-hyponyms, meronyms and random words to form negative examples of entailment.  A filter was applied to ensure that duplicate pairs were not included (e.g., [\texttt{cat},\texttt{animal},1] and [\texttt{animal},\texttt{cat},0] is disallowed). The result was a set of 1976 labelled pairs of nouns.}
-\item[$coord_{BLESS}$]{For each noun in the BLESS dataset, the co-hyponyms were taken as positive examples of this relation.  The same total number (split evenly between) of hypernyms, meronyms and random words was taken to form the negative examples.  The order of 50\% of the pairs was reversed and again duplicate pairs were disallowed, resulting in a set of 5835 labelled pairs of nouns.}
-\end{itemize}
+For each noun in the BLESS dataset, 80\% of the hypernyms were randomly selected to provide positive examples of entailment.  The remaining hypernyms for the given noun were reversed and taken with the co-hyponyms, meronyms and random words to form negative examples of entailment.  A filter was applied to ensure that duplicate pairs were not included (e.g., [\texttt{cat},\texttt{animal},1] and [\texttt{animal},\texttt{cat},0] is disallowed). The result was a set of 1976 labelled pairs of nouns referred to subsequently as $ent_{BLESS}$.
 
-In both cases the pairs are labelled as positive or negative for the specified semantic relation and in both cases there are equal ($+-1$) numbers of positive and negative examples.
+For each noun in the BLESS dataset, the co-hyponyms were taken as positive examples of this relation.  The same total number (split evenly between) of hypernyms, meronyms and random words was taken to form the negative examples.  The order of 50\% of the pairs was reversed and again duplicate pairs were disallowed, resulting in a set of 5835 labelled pairs of nouns, referred to subsequently as $coord_{BLESS}$.
 
-For 99\% of the generated BLESS pairs, both nouns had associated vectors harvested from WikiPedia.   This figure drops to 87\% when vectors are harvested from Gigaword. If a noun does not have an associated vector, the classifiers work on the reasonable assumption that these missing nouns have a zero vector.  
+In both cases the pairs are labelled as positive or negative for the specified semantic relation and in both cases there are equal ($+-1$) numbers of positive and negative examples.  For 99\% of the generated BLESS pairs, both nouns had associated vectors harvested from WikiPedia.   This figure drops to 87\% when vectors are harvested from Gigaword. If a noun does not have an associated vector, the classifiers work on the reasonable assumption that these missing nouns have a zero vector.  
 
 \subsubsection{WordNet}
 
-We automatically constructed four more datasets using WordNet.  Whilst these datasets are similar in size to the BLESS datasets they more fully fulfil the requirements laid out above.  In order to impose these restrictions on the BLESS datasets would lead to very small datasets since information is only provided for 200 nouns.  First, we made a list of all non-rare, largely monsosemous words single word terms in WordNet.  To be considered non-rare, a word needed to have occurred in SemCor at least once (i.e., frequency information is provided about it in the WordNet package) and to have occurred in WikiPedia at least 100 times.  To be considered largely monosemous, the predominant sense of the word needed to account for over 50\% of the occurrences in the SemCor frequency information provided with WordNet.  This led to a list of 7613 words.
+We automatically constructed four more datasets using WordNet.  Whilst these datasets are similar in size to the BLESS datasets they more fully fulfil the requirements laid out above.  In order to impose these restrictions on the BLESS datasets would lead to very small datasets since information is only provided for 200 nouns.  First, we made a list of all non-rare, largely monsosemous words single word terms in WordNet.  To be considered non-rare, a word needed to have occurred in SemCor at least once (i.e., frequency information is provided about it in the WordNet package) and to have occurred in WikiPedia at least 100 times.  To be considered largely monosemous, the predominant sense of the word needed to account for over 50\% of the occurrences in the SemCor frequency information provided with WordNet.  This led to a list of 7613 words.  Four slightly different datasets were constructed as follows.
 
 \begin{itemize}
-\item[$ent_{WN-hyper}$]{Find pairs <A,B> in the list where B is a direct hypernym of A.  Attempt to add each found pair either as a positive or a negative roughly in the ration 2:1 provided that the reverse pairing has not already been added and provided that each word has not previously been used in that position.  Find co-hyponym pairs (i.e., words which share a direct hypernym) within the list.  Attempt to add each found pair to the dataset (as a negative) provided the reverse pairing has not already been added and provided that neither word has already been seen in that position in a pairing (either in the entailment pairs or the co-hyponym pairs).  We selected the same number of co-hyponym pairs as hypernym-hyponym negatives to make an entailment set containing a total of 2104 pairs.}
-\item[$coord_{WN-hyper}$]{As $ent_{WN-hyper}$ but we selected the same number of co-hyponym pairs as the total number of entailment pairs (in either direction).  This led to a coordinate set containing a total of 3156 pairs.}
-\item[$ent_{WN-ancestor}$]{As $ent_{WN-hyper}$ but allowing arbitrary ancestors of words to be considered as examples of the entailment relation rather than just direct hypernyms.  This led to an entailment set containing a total of 2564 pairs.  The average path distance between the entailment pairs in this set is 1.64 (compared to 1 for the $ent_{WN-hyper}$ set).}
-\item[$coord_{WN-ancestor}$]{As $ent_{WN-ancestor}$ but we selected the same number of co-hyponym pairs as the total number of entailment pairs (in either direction).  This led to a coordinate set containing a total of 3771 pairs.}
+\item Find pairs $<$A,B$>$ in the list where B is a direct hypernym of A.  Attempt to add each found pair either as a positive or a negative roughly in the ration 2:1 provided that the reverse pairing has not already been added and provided that each word has not previously been used in that position.  Find co-hyponym pairs (i.e., words which share a direct hypernym) within the list.  Attempt to add each found pair to the dataset (as a negative) provided the reverse pairing has not already been added and provided that neither word has already been seen in that position in a pairing (either in the entailment pairs or the co-hyponym pairs).  We selected the same number of co-hyponym pairs as hypernym-hyponym negatives to make an entailment set containing a total of 2104 pairs, referred to subsequently as $ent_{WN-hyper}$.
+\item As $ent_{WN-hyper}$ but we selected the same number of co-hyponym pairs as the total number of entailment pairs (in either direction).  This led to a coordinate set containing a total of 3156 pairs, referred to subsequently as $coord_{WN-hyper}$.
+\item As $ent_{WN-hyper}$ but allowing arbitrary ancestors of words to be considered as examples of the entailment relation rather than just direct hypernyms.  This led to an entailment set containing a total of 2564 pairs, referred to subsequently as $ent_{WN-ancestor}$.  The average path distance between the entailment pairs in this set is 1.64 (compared to 1 for the $ent_{WN-hyper}$ set).
+\item As $ent_{WN-ancestor}$ but we selected the same number of co-hyponym pairs as the total number of entailment pairs (in either direction).  This led to a coordinate set containing a total of 3771 pairs, referred to subsequently as $coord_{WN-ancestor}$.
 \end{itemize}
 
 \subsection{Experimental Setup}
@@ -235,6 +233,7 @@ Classifier&Wiki&Random&Wiki&Random&Wiki&Random\\
 linsvmSINGLE&0.98&0.96&0.98&0.90&0.75&0.51\\
 linsvmCAT&0.97&0.95&0.98&0.90&0.68&0.53\\
 linsvmDIFF&0.94&0.91&0.94&0.80&0.74&0.53\\
+knnDIFF&0.87&0.59&0.89&0.79&0.54&0.53\\
 linsvmMULT&0.73&0.66&0.73&0.63&0.56&0.54\\
 linsvmADD&0.71&0.76&0.81&0.70&0.66&0.53\\
 invCLP&0.61&0.0.51&0.60&0.49&0.54&0.54\\
@@ -261,6 +260,8 @@ linsvmCAT&0.90&0.87&0.85&0.57&0.40&0.40\\
 cosineP&0.77&0.50&0.78&0.40&0.79&0.61\\
 invCLP&0.71&0.50&0.72&0.40&0.74&0.61\\
 linsvmSINGLE&0.67&0.60&0.66&0.57&0.40&0.44\\
+knnDIFF&0.60&0.52&0.69&0.74&0.58&0.54\\
+linsvmDIFF&0.51&0.50&0.56&0.51&0.62&0.52\\
 widthdiff&0.50&0.50&0.50&0.40&0.50&0.39\\
 most frequent&0.50&0.50&0.60&0.60&0.61&0.61\\
 \hline
@@ -270,6 +271,56 @@ most frequent&0.50&0.50&0.60&0.60&0.61&0.61\\
 \end{table*}
 
 Looking at the initial results for the BLESS datasets, one is tempted to conclude that the SVM methods which combine the vectors whilst retaining their directionality (linsvmCAT and linsvmDIFF) are most suited to the entailment task whilst the SVM methods which combine the vectors in a symmetrical fashion (linsvmMULT and linsvmADD) are most suited to the task of identifying co-hyponyms.  Further, it initially seems that these supervised methods vastly outperform the unsupervised methods, which on the entailment task do little better than comparing width.  However, when we compare the results obtained using Wiki vectors with the results using random vectors, we can see that this performance has little to do with the distributional representations.  Further, the superior performance of linsvmSINGLE suggests we do not even need to consider both vectors, we can simply learn what concepts tend to go at the top of the ontological tree.  This data set with the straightforward cross-validation approach is too easy for the supervised methods because so many words share common hypernyms.  This is further borne out by the fact that switching to the \texttt{holdback1} approach does not substantially affect results for the entailment task.    When we switch to the \texttt{holdback2} approach, the supervised methods cannot rely on implicit ontological information in the training set and the SVMs trained with random vectors perform the same or worse than guessing.  However, there is also a massive drop in performance for the classifiers trained with the Wiki vectors.   On the entailment task, the SVM methods do generally outperform the unsupervised methods.  However, the best performing one is linsvmSINGLE.  From this we conclude that for this dataset it is best to try to learn the distributional features of more general terms, rather then comparing the vector representations of the two terms under consideration.   On the coordinate task, the best performing classifier is now the cosine measure - the effectiveness of which has not significantly changed with changes to the experimental set up.   The poor performance of the SVM methods here can be somewhat explained by the paucity of the training data in this experimental set up with this dataset.  If, for example, our test concept is \texttt{robin}, we cannot have any training pairs containing \texttt{robin} or any training pairs containing any of the words which \texttt{robin} is related to in the dataset.  Hence, when constructing the WordNet datasets we established the requirements that each word only be present once in each position of a pair - allowing us to remove the implicit ontological information from the training set without removing all knowledge of the distributional features of words in the target domain.
+
+Tables \ref{table:results_ent_WN} and \ref{table:results_coord_WN} summarise results for the $ent_{WN}$ datasets and the $coord_{WN}$ datasets respectively.  As before, we compare average accuracy for a number of different classifiers using 2 different vector representations for each dataset.  In all cases, standard error was less than 0.02.  For brevity we omit some of the classifiers which performed worse (or not significantly differently) to other similar classifiers.
+
+
+\begin{table*}[ht]
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+&\multicolumn{2}{|c|}{$ent_{WN-hyper}$}&\multicolumn{2}{|c|}{$ent_{WN-ancestor}$}\\
+\hline
+Classifiier&Wiki&Random&Wiki&Random\\
+\hline
+linsvmCAT&0.71&0.48&0.74&0.48\\
+linsvmDIFF&0.70&0.51&0.75&0.53\\
+clarkediff&0.69&0.50&0.70&0.50\\
+CRdiff&0.69&0.47&0.70&0.48\\
+widthdiff&0.69&0.50&0.70&0.50\\
+invCLP&0.65&0.50&0.66&0.48\\
+singlewidth&0.64&0.50&0.65&0.50\\
+conesvm&0.58&0.51&0.64&0.52\\
+cosineP&0.54&0.50&0.53&0.50\\
+linP&0.52&0.50&0.53&0.50\\
+linsvmMULT&0.51&0.50&0.45&0.46\\
+knnDIFF&0.51&0.49&0.50&0.49\\
+linsvmADD&0.46&0.49&0.37&0.45\\
+most frequent&0.50&0.50&0.50&0.50\\
+\hline
+\end{tabular}
+\caption{Accuracy Figures for $ent_{WN-hyper}$ and $ent_{WN-ancestor}$}
+\label{table:results_ent_WN}
+\end{table*}
+
+Looking at the results for the $ent_{WN}$ datasets, it appears that including arbitrary distance ancestors as possible hypernyms makes the task slightly easier for unsupervised measures which benefit from the correlation between width, frequency and generality (e.g., widthdiff, CRdiff, clarkediff and invCLP) but potentially slightly harder for measures based on vector similarity (e.g., cosineP).  However, these differences are not statistically significant.  The directional SVM methods do substantially outperform the symmetric SVM methods and their performance is significantly better than the unsupervised methods on the dataset where arbitrary ancestors are included, suggesting that these methods benefit from the big differences between some entailment pairs.
+
+Also of note is the big difference between linsvmDIFF and knnP.  Both of these methods are trained on the differences of vectors.  However, the linear SVM outperforms kNN by 19-25\%.  This may suggest that the shape of the vector space inhabited by the positive entailment pairs is particularly conducive for learning a linear SVM.  Positive and negative pairs are close together (as evidenced by the poor performance of kNN) but generally linearly separable.
+
+\begin{table*}[ht]
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+&\multicolumn{2}{|c|}{$coord_{WN-hyper}$}&\multicolumn{2}{|c|}{$coord_{WN-ancestor}$}\\
+\hline
+Classifiier&Wiki&Random&Wiki&Random\\
+\hline
+\hline
+\end{tabular}
+\caption{Accuracy Figures for $coord_{WN-hyper}$ and $coord_{WN-ancestor}$}
+\label{table:results_coord_WN}
+\end{table*}
+
 
 
 \section{Conclusions and Further Work}
