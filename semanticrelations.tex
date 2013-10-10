@@ -308,7 +308,7 @@ most frequent&0.50&0.50&0.50&0.50\\
 
 Looking at the results for the $ent_{WN}$ datasets, it appears that including arbitrary distance ancestors as possible hypernyms makes the task slightly easier for unsupervised measures which benefit from the correlation between width, frequency and generality (e.g., widthdiff, CRdiff, clarkediff and invCLP) but potentially slightly harder for measures based on vector similarity (e.g., cosineP).  However, these differences are not statistically significant.  The directional SVM methods do substantially outperform the symmetric SVM methods and their performance is significantly better than the unsupervised methods on the dataset where arbitrary ancestors are included, suggesting that these methods benefit from the big differences between some entailment pairs.
 
-Also of note is the big difference between linsvmDIFF and knnP.  Both of these methods are trained on the differences of vectors.  However, the linear SVM outperforms kNN by 19-25\%.  This may suggest that the shape of the vector space inhabited by the positive entailment pairs is particularly conducive for learning a linear SVM.  Positive and negative pairs are close together (as evidenced by the poor performance of kNN) but generally linearly separable.
+Also of note is the big difference between linsvmDIFF and knnDIFF.  Both of these methods are trained on the differences of vectors.  However, the linear SVM outperforms kNN by 19-25\%.  This may suggest that the shape of the vector space inhabited by the positive entailment pairs is particularly conducive for learning a linear SVM.  Positive and negative pairs are close together (as evidenced by the poor performance of kNN) but generally linearly separable.
 
 \begin{table*}[ht]
 \centering
@@ -318,13 +318,26 @@ Also of note is the big difference between linsvmDIFF and knnP.  Both of these m
 \hline
 Classifiier&Wiki&Random&Wiki&Random\\
 \hline
+linsvmADD&0.61&0.51&0.68&0.54\\
+linsvmCAT&0.61&0.50&0.64&0.52\\
+linsvmSINGLE&0.59&0.48&0.58&0.49\\
+linsvmMULT&0.58&0.51&0.60&0.54\\
+linsvmDIFF0.50&0.51&0.37&0.45\\
+knnDIFF&0.50&0.50&0.50&0.50\\
+cosineP&0.48&0.50&0.50&0.50\\
+invCLP&0.48&0.50&0.48&0.51\\
+singlewidth&0.48&0.50&0.49&0.50\\
+widthdiff&0.45&0.50&0.48&0.50\\
+most frequent&0.50&0.50&0.50&0.50\\
 \hline
 \end{tabular}
 \caption{Accuracy Figures for $coord_{WN-hyper}$ and $coord_{WN-ancestor}$}
 \label{table:results_coord_WN}
 \end{table*}
 
+Looking at the results for the $coord_{WN}$ datasets, it is clear that the unsupervised methods cannot distinguish the co-hyponym pairs from the entailing pairs.  The supervised SVM methods do substantially better, with the best performance achieved by linsvmCAT and linsvmADD.  Both of these methods essentially retain information about all of the features of both words.  linsvmMULT does much better than linsvmDIFF, which suggests that the shared features are more indicative than the non-shared features for this task.  Best performance is again achieved on the dataset where arbitrary ancestors are included in the entailment pairs, again suggesting that the SVM methods benefit from the big differences between some of the entailment pairs included as negatives in this dataset.  Further, whilst the difference between linsvmADD and linsvmSINGLE is significant at the 5\% level (but not the 1\% level) when only direct hypernyms are included in the task, it is only when arbitrary ancestors are included that this difference becomes substantial.   The reasonably high performance of linsvmSINGLE suggests that words which have co-hyponyms in the dataset tend to inhabit a slightly different part of the feature space to words which are included as hypernyms/ancestors in the dataset.  It is possible that there are specific features which more general words tend to share (regardless of their topic) which makes it possible to identify more general words from more specific words.  This phenomena is also observable in the BLESS dataset which suggests that it is not simply an artefact of dataset.
 
+A final point to note is that linsvmADD actually does significantly better than random with random vectors with the $coord_{WN-ancestor}$ dataset.  This suggests that the supervised methods are able to benefit slightly from the tiny amount of implicit ontological information present in the dataset.  For example, a decision about whether (cat,dog) is a valid co-hyponym pair may be influenced by whether we have seen (mouse, cat) as a valid co-hyponym pair since this may suggest that cat is at the level in the hierarchy where lots of co-hyponyms tend to live.  However, all of the methods do vastly better with the vectors harvested from Wikipedia, from which we conclude that the distributional information is much more significant than this residual ontological information.
 
 \section{Conclusions and Further Work}
 
