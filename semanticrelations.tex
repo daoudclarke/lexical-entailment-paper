@@ -149,39 +149,57 @@ representations of meaning.
 
 Most recently, \newcite{rei-briscoe:2013:NAACL-HLT} note that hyponyms are well suited for lexical substitution.  In their experiments with smoothing edge scores for parser lexicalisation, they find that a directional similarity measure,  \emph{WeightedCosine}\footnote{The details of this measure are unpublished.}, performs best. Also of note, \newcite{Mikolov2013} propose a vector offset method to capture syntactic and semantic regularities between word representations learnt by a recurrent neural network language model.  \newcite{yih-zweig-platt:2012:EMNLP-CoNLL} present a method for distinguishing synonyms and antonyms by inducing polarity in a document-term matrix before applying Latent Semantic Analysis.
 
-\section{Combining Vectors}
-\label{sect:theory}
-Our goal is to build classifiers that establish whether or not a given semantic relation, \emph{rel}, holds between two similar words $A$ and $B$.
-Support vector machines (SVMs), which are effective across a variety of classification scenarios, learn a boundary between two classes from a set of positive and negative example vectors.  The two classes correspond to the relation \emph{rel} holding or not holding.  Here, however, we do not start with a single vector, but with two distributional vectors $v_A$ and $v_B$ for the words $A$ and $B$, respectively. These vectors must be combined in some way to produce the SVM's input, and the following alternatives will be considered:
-
-\smallskip
-
-\noindent DIFF: $v_A - v_B$\\[2pt]
-This is an asymmetric measure producing small vectors when given similar vectors. This operation does not distinguish  cases where two words share a feature with similar high weights from cases where neither word has the feature strongly.  It emphasises features which one word has strongly but the other does not.
-
-\smallskip
-
-\noindent MULT: $v_A\cdot v_B$ (pointwise multiplication)\\[2pt]
-This  symmetric measure finds the intersection of the two vectors: the $i$th component is zero for every non-shared feature $i$.   Dissimilar vectors will have small multiplication vectors and similar vectors will have large multiplication vectors.  
-\smallskip
-
-\noindent ADD: $v_A + v_B$.  \\[2pt]
-This symmetric measure emphasises the intersection of the  vectors whilst retaining information about all features in the union of the two vectors.  
-
-\smallskip
-
-\noindent CAT: $v_A\oplus v_B$.\\[2pt]
-This asymmetric measure is the concatenation of the two vectors, also referred to as the direct sum.  It retains all of the information from both vectors including the direction.
 
 \section{Methodology}
 
 \subsection{Vector Representations}
+\label{sect:representations}
+
+Our goal is to build classifiers that establish whether or not a given
+semantic relation, \emph{rel}, holds between two similar words $A$ and
+$B$.  Support vector machines (SVMs), which are effective across a
+variety of classification scenarios, learn a boundary between two
+classes from a set of positive and negative example vectors.  The two
+classes correspond to the relation \emph{rel} holding or not holding.
+Here, however, we do not start with a single vector, but with two
+distributional vectors $v_A$ and $v_B$ for the words $A$ and $B$,
+respectively. These vectors must be combined in some way to produce
+the SVM's input, and a number of ways were considered, defined in
+table \ref{table:classifiers}.
+
+Of these measures, the vector difference (\emph{svm\-DIFF} and
+\emph{knnDIFF}) and direct sum (\emph{svmCAT}) are asymmetric, whereas
+the sum and pointwise multiplication (\emph{svmADD} and \emph{svmMULT})
+are symmetric. Note that these methods behave in very different ways,
+for example, vector difference produces smaller vectors when given
+similar vectors, whereas pointwise multiplication produces larger
+vectors when the inputs are similar.
+
+% Vector difference produces small vectors when given
+% similar vectors. It does not distinguish cases where two
+% words share a feature with similar high weights from cases where
+% neither word has the feature strongly, and it emphasises features
+% which one word has strongly but the other does not.
+
+% Pointwise multiplication finds the intersection of the two vectors:
+% the $i$th component is zero for every non-shared feature $i$.
+% Dissimilar vectors will have small multiplication vectors and similar
+% vectors will have large multiplication vectors.
+
+% Vector addition emphasises the intersection of the vectors whilst
+% retaining information about all features in the union of the two
+% vectors.
+
+% The direct sum retains all of the information from both vectors
+% including the direction.
 
 Distributional information was collected for all of the nouns from Wikipedia provided they had occurred $100$ or more times.  The features used were grammatical dependency features (also occurring $100$ or more times) extracted using the MALT parser~\cite{Nivre2006}.  The value of each feature is the (positive) PMI between the noun and the feature. The total number of noun vectors which can be harvested from Wikipedia with these parameters is $124,345$.  Random $1000$ dimensional vectors were also constructed in order to be able to assess the impact of using distributional information over a system which simply learns the implied taxonomy in the training data and applies it to the test data.  The dimensionality of the random vectors was chosen to be $1000$ since this substantially exceeds the average number ($398$) of non-zero features in the Wikipedia vectors.
 
 \subsection{Classifiers}
 
-We constructed linear SVMs for each of the vector operations outlined in Section \ref{sect:theory}.  We used linear SVMs for speed and simplicity, since the point is to compare the different vector representations of the pairings.  For comparison, we also constructed a number supervised, unsupervised, and  weakly supervised classifiers. These are listed in Table~\ref{table:classifiers}.  
+We constructed linear SVMs for each of the vector operations outlined in Section \ref{sect:representations}.  We used linear SVMs for speed and simplicity, since the point is to compare the different vector representations of the pairings.  For comparison, we also constructed a number supervised, unsupervised, and  weakly supervised classifiers. These are listed in Table~\ref{table:classifiers}.  
+
+
 
 \begin{table*}[ht]
 \centering
