@@ -273,7 +273,21 @@ In both these sets, the average path distance between entailment pairs is $1.64$
 
 \subsection{Experimental Setup}
 
-Most of our experiments were carried out using an implementation of five-fold cross-validation using each combination of data set, vector set and classifier, which we refer to as \texttt{CV5}.  In this setup, the pairs are randomly partitioned into $5$ subsets, $1$ subset is held out for testing whilst the classifiers are trained on the remaining $4$, and this process is repeated using each subset as the test set.  However, a potential problem with the \texttt{CV5} approach is that the classifiers are potentially able to learn from ontological information implicit in the training data. In an attempt to address this, rather than randomly partitioning the \emph{pairs}, the BLESS \emph{concepts} were randomly partitioned. Given a partition held out for testing, any pair where either word is one of the test concepts is excluded from the training set.  We refer to this approach as \texttt{holdback1}.  We also experimented with an even stricter approach where we removed any pair from the training data if either word is present in any pair in the test data.  In order to preserve a reasonable amount of training data, we implemented this approach with ten-fold cross-validation.  We refer to this approach as \texttt{holdback2}.
+Most of our experiments were carried out using an implementation of
+five-fold cross-validation using each combination of data set, vector
+set and classifier.  In this setup, the pairs are randomly partitioned
+into five subsets, one subset is held out for testing whilst the
+classifiers are trained on the remaining four, and this process is
+repeated using each subset as the test set.
+
+For the BLESS datasets, we found in initial experiments that using
+random vectors did not produce significantly different results from
+using the vectors from Wikipedia, indicating that the classifiers were
+learning ontological information implicit in the training data. In
+order to address this, we removed any pair from the training data if
+either word was present in the test data. In order to preserve a
+reasonable amount of training data, we implemented this approach with
+ten-fold cross-validation.
 
 \section{Results}
 \label{sect:results}
@@ -311,13 +325,9 @@ invCLP&0.54&0.54&--&--\\
 
 Table~\ref{table:results_ent} summarises results for the $\entBLESS$ data set and the $\coordBLESS$ data set, and Table~\ref{table:results_WN} summarises results for the $\entWN$ data sets and the $\coordWN$ data sets.  We compare average accuracy for a number of different classifiers using $2$ different vector representations (in each of the experimental setups for the BLESS data).  In all cases, standard error was less than $0.02$.  For brevity we omit some of the classifiers which performed worse than (or not significantly differently to) other similar classifiers.  In particular, cosineP generally performed marginally better than linP; CRdiff and clarkediff were indistinguishable in performance and generally performed similarly to invCLP and widthdiff.
 
-Looking at the \texttt{CV5} results for the BLESS data, it would be tempting to conclude that the SVM methods which combine the vectors whilst retaining their directionality (svmCAT and svmDIFF) are most suited to the entailment task, whilst the SVM methods which combine the vectors symmetrically (svmMULT and svmADD) are most suited to the task of identifying co-hyponyms.  Further, it  seems that these supervised methods vastly outperform the unsupervised methods, which on the entailment task do little better than comparing width.  However, when we compare the results obtained using distributional vectors with the results using random vectors, we can see that this performance has little to do with the distributional representations.  
+On the entailment task, the SVM methods do generally outperform the unsupervised methods.  However, the best performing model is svmSING, suggesting that, for this data set, it is best to try to learn the distributional features of more general terms, rather than comparing the vector representations of the two terms under consideration.   
 
-Furthermore, the superior performance of svmSING on $\entBLESS$ suggests we do not even need to consider both vectors, the classifier can simply learn which concepts tend to be located high in the ontological tree.  This data set with the straightforward cross-validation approach is too easy for the supervised methods because so many words share common hypernyms.  This is further borne out by the fact that switching to the \texttt{holdback1} approach does not substantially affect results for the entailment task \footnote{It is also worth noting that partitioning the concepts rather than the pairs, as in the \texttt{holdback1} and \texttt{holdback2} approaches,  unbalances the positive-negative mix of the data set (since the test concept may have appeared in either the left hand position or the right hand position of a pair) and this improves the baseline result of guessing the most frequent label.}.
-
-When we switch to the \texttt{holdback2} approach, the supervised methods cannot rely on implicit ontological information in the training set and the SVMs trained with random vectors perform the same or worse than guessing.  However, there is also a massive drop in performance for the classifiers trained with the distributional vectors.   On the entailment task, the SVM methods do generally outperform the unsupervised methods.  However, the best performing model is svmSING, suggesting that, for this data set, it is best to try to learn the distributional features of more general terms, rather than comparing the vector representations of the two terms under consideration.   
-
-On the coordinate task, the best performing classifier is now the cosine measure --- the effectiveness of which has not significantly changed with changes to the experimental set up.   The poor performance of the SVM methods here can perhaps be explained by the paucity of the training data in this experimental set up with this data set.  If, for example, our test concept is \texttt{robin}, under the \texttt{holdback2} approach, we will not have any training pairs containing \texttt{robin}, or any training pairs containing any of the words to which \texttt{robin} is related in the data set.  It is this that motivated our approach to the construction of the WordNet data sets. In particular, we require that each word only be present once in each position of a pair --- allowing us to remove the implicit ontological information from the training set, without removing all knowledge of the distributional features of words in the target domain.
+On the coordinate task, the best performing classifier is the cosine measure. The poor performance of the SVM methods here can perhaps be explained by the paucity of the training data in this experimental set up with this data set.  If, for example, our test concept is \texttt{robin}, under the \texttt{holdback2} approach, we will not have any training pairs containing \texttt{robin}, or any training pairs containing any of the words to which \texttt{robin} is related in the data set.  It is this that motivated our approach to the construction of the WordNet data sets. In particular, we require that each word only be present once in each position of a pair --- allowing us to remove the implicit ontological information from the training set, without removing all knowledge of the distributional features of words in the target domain.
 
 \begin{table}[ht]
 \centering
