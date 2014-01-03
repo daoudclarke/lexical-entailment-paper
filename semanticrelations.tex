@@ -6,10 +6,10 @@
 \usepackage{graphicx}
 \setlength\titlebox{6.5cm}
 
-\newcommand\entBLESS{\mbox{\em ent\/}_{\mbox{\scriptsize BLESS}}}
-\newcommand\coordBLESS{\mbox{\em coord\/}_{\mbox{\scriptsize BLESS}}}
-\newcommand\entWN{\mbox{\em ent\/}_{\mbox{\scriptsize WN}}}
-\newcommand\coordWN{\mbox{\em coord\/}_{\mbox{\scriptsize WN}}}
+\newcommand\entBLESS{\mbox{\em hyponym\/}_{\mbox{\scriptsize BLESS}}}
+\newcommand\coordBLESS{\mbox{\em cohyponym\/}_{\mbox{\scriptsize BLESS}}}
+\newcommand\entWN{\mbox{\em hyponym\/}_{\mbox{\scriptsize WN}}}
+\newcommand\coordWN{\mbox{\em cohyponym\/}_{\mbox{\scriptsize WN}}}
 \newcommand\invCL[1]{\mbox{\em invCL\/}(#1)}
 \newcommand\simcos[1]{\mbox{\em sim\/}_{\mbox{\em cos}}(#1)}
 \newcommand\simlin[1]{\mbox{\em sim\/}_{\mbox{\em lin}}(#1)}
@@ -301,7 +301,8 @@ invCLP&0.54&0.54&--&--\\
 \hline
 \end{tabular}
 \caption{Accuracy Figures for the $\entBLESS$ and
-  $\coordBLESS$ data sets (errors $< $0.02). For
+  $\coordBLESS$ data sets (errors $< $0.02), for vectors generated
+  from Wikipedia (Wk) and random vectors (Rd). For
   $\coordBLESS$, results for measures designed to detect hyponymy
   have been omitted.}
 \label{table:results_ent}
@@ -341,7 +342,9 @@ clarkediff&0.70&0.50&--&--\\
 invCLP&0.66&0.48&--&--\\
 \hline
 \end{tabular}
-\caption{Accuracy Figures for $\entWN$ and $\coordWN$ (Errors $<$ 0.02)}
+\caption{Accuracy Figures for $\entWN$ and $\coordWN$ (errors $<$
+  0.02), for vectors generated
+  from Wikipedia (Wk) and random vectors (Rd).}
 \label{table:results_WN}
 \end{table}
 
