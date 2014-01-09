@@ -131,7 +131,7 @@ Evaluation on the BLESS data set~\cite{Baroni2011}, showed that this measure is 
 
 \newcite{Szpektor2008} found that the $P_{ww}$ measure tends to promote relationships between infrequent words with narrow vectors (i.e.~those with relatively few distinct context features).  They proposed using the geometric average of $P_{ww}$ and the symmetric similarity measure of \newcite{Lin1998} in order to penalise low frequency words.   
 
-\newcite{Kotlerman2010}  apply the IR evaluation method of \emph{Average Precision} to the problem of identifying lexical inference and use the balancing approach of \newcite{Szpektor2008} to demote similarities for narrow feature vectors.  They show that all of the asymmetric similarity measures previously proposed perform much better than symmetric similarity measures on a directionality detection experiment, and that their method outperforms the others with statistical significance.
+\newcite{Kotlerman2010} apply the IR evaluation method of \emph{Average Precision} to the problem of identifying lexical inference and use the balancing approach of \newcite{Szpektor2008} to demote similarities for narrow feature vectors; their measure is called \emph{balAPinc}.  They show that all of the asymmetric similarity measures previously proposed perform much better than symmetric similarity measures on a directionality detection experiment, and that their method and that of \cite{Clarke:09} outperform the others with statistical significance. They also show that their measure is superior when used for term expansion in an event detection task.
 
 The Stanford WordNet project \cite{Snow:04} expands the WordNet
 taxonomy by analysing large corpora to find patterns that are
@@ -219,6 +219,7 @@ We constructed linear SVMs for each of the vector operations outlined in Section
 \emph{CRdiff}& $P_{ww}(A,B) > R_{ww}(A,B) \rightarrow\rel{A,B}$  \cite{Weeds2004}\\
 \emph{clarkediff}&$P_{cl}(A,B) > R_{cl}(A,B) \rightarrow\rel{A,B}$  \cite{Clarke:09}\\
 \emph{invCLP}&$\invCL{A,B} > p \rightarrow\rel{A,B}$  \cite{Lenci2012}\\
+\emph{balAPinc}&Balanced average precision \cite{Kotlerman2010}\\
 \emph{most freq}&The most frequent label in the training data is assigned to every test point.\\
 \hline
 \end{tabular}
@@ -312,6 +313,7 @@ cosineP&0.53&0.54&\textbf{0.79}&0.61\\
 widthdiff&0.56&0.53&--&--\\
 singlewidth&0.58&0.48&--&--\\
 invCLP&0.54&0.54&--&--\\
+balAPinc&0.54&&--&--\\
 \hline
 \end{tabular}
 \caption{Accuracy Figures for the $\entBLESS$ and
@@ -335,7 +337,7 @@ On the coordinate task, the best performing classifier is the cosine measure. Th
 \hline
 &\multicolumn{2}{|c|}{$\entWN$}&\multicolumn{2}{|c|}{$\coordWN$}\\
 \hline
-Classifiier&Wk&Rd&Wk&Rd\\
+Classifier&Wk&Rd&Wk&Rd\\
 \hline
 svmDIFF&\textbf{0.75}&0.53&0.37&0.45\\
 svmMULT&0.45&0.46&0.60&0.54\\
@@ -350,6 +352,7 @@ widthdiff&0.70&0.50&--&--\\
 singlewidth&0.65&0.50&--&--\\
 clarkediff&0.70&0.50&--&--\\
 invCLP&0.66&0.48&--&--\\
+balAPinc&0.54&&--&--\\
 \hline
 \end{tabular}
 \caption{Accuracy Figures for $\entWN$ and $\coordWN$ (standard errors $<$
