@@ -367,7 +367,21 @@ Looking at the results for the $\coordWN$ data set, it is clear that the unsuper
 
 The reasonably high performance of svmSING on both data sets suggests that words which have co-hyponyms in the data set tend to inhabit a somewhat different part of the feature space to words which are included as entailed words in the data set.  We hypothesise that there are specific features which more general words tend to share (regardless of their topic) which makes it possible to identify more general words from more specific words.  This phenomena is also observed in the BLESS data set which suggests that it is not simply an artefact of this particular data.
 
-A final point to note is that svmADD and svmMULT  do significantly better than random with random vectors with the $\coordWN$ data set.  This suggests that the supervised methods are able to benefit slightly from some residual ontological information about the target words present in the training set.  For example, a decision about whether $\langle\texttt{cat},\texttt{dog}\rangle$ is a valid co-hyponym pair may be influenced by whether we have seen $\langle\texttt{mouse},\texttt{cat}\rangle$ as a valid co-hyponym pair, since this may suggest that cat is at the level in the hierarchy where lots of co-hyponyms tend to live.  However, all of the methods do vastly better with the distributional vectors harvested from Wikipedia, from which we conclude that the distributional information is much more significant than this residual ontological information.
+We also analysed the performance of systems using random vectors
+instead of those obtained from Wikipedia. We found that svmADD and
+svmMULT perform significantly better than random with these vectors on
+the $\coordWN$ data set.  This suggests that the supervised methods
+are able to benefit slightly from some residual ontological
+information about the target words present in the training set.  For
+example, a decision about whether
+$\langle\texttt{cat},\texttt{dog}\rangle$ is a valid co-hyponym pair
+may be influenced by whether we have seen
+$\langle\texttt{mouse},\texttt{cat}\rangle$ as a valid co-hyponym
+pair, since this may suggest that cat is at the level in the hierarchy
+where lots of co-hyponyms tend to live.  However, all of the methods
+do vastly better with the distributional vectors harvested from
+Wikipedia, from which we conclude that the distributional information
+is much more significant than this residual ontological information.
 
 \section{Conclusions and Further Work}
 
