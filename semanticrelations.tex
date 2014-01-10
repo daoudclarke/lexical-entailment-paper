@@ -207,7 +207,21 @@ pointwise multiplication if we had used frequencies for vectors.
 % The direct sum retains all of the information from both vectors
 % including the direction.
 
-Distributional information was collected for all of the nouns from Wikipedia provided they had occurred $100$ or more times.  The features used were grammatical dependency features (also occurring $100$ or more times) extracted using the MALT parser~\cite{Nivre2006}.  The value of each feature is the (positive) PMI between the noun and the feature. The total number of noun vectors which can be harvested from Wikipedia with these parameters is $124,345$.  Random $1000$ dimensional vectors were also constructed in order to be able to assess the impact of using distributional information over a system which simply learns the implied taxonomy in the training data and applies it to the test data.  The dimensionality of the random vectors was chosen to be $1000$ since this substantially exceeds the average number ($398$) of non-zero features in the Wikipedia vectors.
+Distributional information was collected for all of the nouns from
+Wikipedia provided they had occurred $100$ or more times. We used a
+Wikimedia dump of Wikipedia from June 2011, and extracted text using
+wp2txt\footnote{\url{https://github.com/yohasebe/wp2txt}}. The
+features used were grammatical dependency features (also occurring
+$100$ or more times) extracted using the MALT parser~\cite{Nivre2006}.
+The value of each feature is the (positive) PMI between the noun and
+the feature. The total number of noun vectors which can be harvested
+from Wikipedia with these parameters is $124,345$.  Random $1000$
+dimensional vectors were also constructed in order to be able to
+assess the impact of using distributional information over a system
+which simply learns the implied taxonomy in the training data and
+applies it to the test data.  The dimensionality of the random vectors
+was chosen to be $1000$ since this substantially exceeds the average
+number ($398$) of non-zero features in the Wikipedia vectors.
 
 \subsection{Classifiers}
 
@@ -221,7 +235,11 @@ used the scikit-learn implementations of classifiers with default
 settings. For $k$ nearest neighbours, we performed a parameter search,
 using nested cross-validation, varying $k$ between 1 and 50.
 
-
+For weakly supervised approaches, we evaluated the measure on the
+training set, then found the best threshold $p$ on the training set
+that best divides the two classes using that measure. When
+classifying, we determine that the relation holds if the value of the
+measure exceeds $p$.
 
 \begin{table*}[ht]
 \centering
