@@ -14,6 +14,7 @@
 \newcommand\simcos[1]{\mbox{\em sim\/}_{\mbox{\em cos}}(#1)}
 \newcommand\simlin[1]{\mbox{\em sim\/}_{\mbox{\em lin}}(#1)}
 \newcommand\width[1]{\mbox{\em width\/}(#1)}
+\newcommand\balapinc[1]{\mbox{\em balAPinc\/}(#1)}
 \newcommand\rel[1]{\mbox{\em rel\/}(#1)}
 \newcommand\pair[2]{$\langle$\texttt{#1} ISA \texttt{#2}$\rangle$}
 
@@ -219,7 +220,7 @@ We constructed linear SVMs for each of the vector operations outlined in Section
 \emph{CRdiff}& $P_{ww}(A,B) > R_{ww}(A,B) \rightarrow\rel{A,B}$  \cite{Weeds2004}\\
 \emph{clarkediff}&$P_{cl}(A,B) > R_{cl}(A,B) \rightarrow\rel{A,B}$  \cite{Clarke:09}\\
 \emph{invCLP}&$\invCL{A,B} > p \rightarrow\rel{A,B}$  \cite{Lenci2012}\\
-\emph{balAPinc}&Balanced average precision \cite{Kotlerman2010}\\
+\emph{balAPincP}&$\balapinc{A,B} > p \rightarrow\rel{A,B}$ \cite{Kotlerman2010}\\
 \emph{most freq}&The most frequent label in the training data is assigned to every test point.\\
 \hline
 \end{tabular}
@@ -314,7 +315,7 @@ singlewidth&0.58&--\\
 CRdiff&0.52&--\\
 clarkediff&0.43&--\\
 invCLP&0.54&--\\
-balAPinc&0.54&--\\
+balAPincP&0.54&--\\
 \hline
 \end{tabular}
 \caption{Accuracy Figures for the data sets generated from BLESS
@@ -351,7 +352,7 @@ singlewidth&0.65&--\\
 CRdiff&0.70&--\\
 clarkediff&0.70&--\\
 invCLP&0.66&--\\
-balAPinc&0.53&--\\
+balAPincP&0.53&--\\
 \hline
 \end{tabular}
 \caption{Accuracy Figures for datasets generated from WordNet
