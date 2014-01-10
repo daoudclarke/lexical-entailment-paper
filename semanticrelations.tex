@@ -131,7 +131,7 @@ Evaluation on the BLESS data set~\cite{Baroni2011}, showed that this measure is 
 
 \newcite{Szpektor2008} found that the $P_{ww}$ measure tends to promote relationships between infrequent words with narrow vectors (i.e.~those with relatively few distinct context features).  They proposed using the geometric average of $P_{ww}$ and the symmetric similarity measure of \newcite{Lin1998} in order to penalise low frequency words.   
 
-\newcite{Kotlerman2010} apply the IR evaluation method of \emph{Average Precision} to the problem of identifying lexical inference and use the balancing approach of \newcite{Szpektor2008} to demote similarities for narrow feature vectors; their measure is called \emph{balAPinc}.  They show that all of the asymmetric similarity measures previously proposed perform much better than symmetric similarity measures on a directionality detection experiment, and that their method and that of \cite{Clarke:09} outperform the others with statistical significance. They also show that their measure is superior when used for term expansion in an event detection task.
+\newcite{Kotlerman2010} apply the IR evaluation method of \emph{Average Precision} to the problem of identifying lexical inference and use the balancing approach of \newcite{Szpektor2008} to demote similarities for narrow feature vectors; their measure is called \emph{balAPinc}.  They show that all of the asymmetric similarity measures previously proposed perform much better than symmetric similarity measures on a directionality detection experiment, and that their method and that of \newcite{Clarke:09} outperform the others with statistical significance. They also show that their measure is superior when used for term expansion in an event detection task.
 
 The Stanford WordNet project \cite{Snow:04} expands the WordNet
 taxonomy by analysing large corpora to find patterns that are
@@ -297,23 +297,21 @@ ten-fold cross-validation.
 \centering
 \begin{tabular}{|l|c|c||c|c|}
 \hline
-&\multicolumn{2}{|c||}{$\entBLESS$}&\multicolumn{2}{|c|}{$\coordBLESS$}\\
+Classifier&$\entBLESS$&$\coordBLESS$\\
 \hline
-Classifier&Wk&Rd&Wk&Rd\\
+svmDIFF&\textbf{0.74}&0.62\\
+svmMULT&0.56&0.39\\
+svmADD&0.66&0.41\\
+svmCAT&0.68&0.40\\
+svmSING&\textbf{0.75}&0.40\\
+knnDIFF&0.54&0.58\\
 \hline
-svmDIFF&\textbf{0.74}&0.53&0.62&0.52\\
-svmMULT&0.56&0.54&0.39&0.40\\
-svmADD&0.66&0.53&0.41&0.39\\
-svmCAT&0.68&0.53&0.40&0.40\\
-svmSING&\textbf{0.75}&0.51&0.40&0.44\\
-knnDIFF&0.54&0.53&0.58&0.54\\
-\hline
-most freq&0.54&0.54&0.61&0.61\\
-cosineP&0.53&0.54&\textbf{0.79}&0.61\\
-widthdiff&0.56&0.53&--&--\\
-singlewidth&0.58&0.48&--&--\\
-invCLP&0.54&0.54&--&--\\
-balAPinc&0.54&0.48&--&--\\
+most freq&0.54&0.61\\
+cosineP&0.53&\textbf{0.79}\\
+widthdiff&0.56&--\\
+singlewidth&0.58&--\\
+invCLP&0.54&--\\
+balAPinc&0.54&--\\
 \hline
 \end{tabular}
 \caption{Accuracy Figures for the $\entBLESS$ and
