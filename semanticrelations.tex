@@ -412,7 +412,7 @@ The reasonably high performance of svmSING on both data sets suggests that words
 The performance of the balAPincP measure is lower than expected on the
 $\entWN$ dataset. Our task is slightly different to that of
 \cite{Kotlerman2010}, since we are determining the existence (or not)
-of hyponymy, rather than the direction of entailment for pairs which
+of hyponymy, rather than the direction of entailment for pairs where
 it is known that a relationship exists. It could be that the measure
 is particularly suited to the latter task.
 
@@ -441,7 +441,7 @@ linear SVMs. The   increase in accuracy over unsupervised methods is
 significant at the 0.01\% level and corresponds to a substantial
 absolute reduction in error rate (over 15\%).
 
-We have also shown that the choice of vector operation is significant.  Whilst concatenating the vectors, and therefore retaining all of the information from both vectors including direction, generally performs well, we have also shown that different vector operations are useful in establishing different relationships.  In particular, the vector difference operation which loses information about the original vectors, achieved performance indistinguishable from concatenation on the entailment task.  The addition operation, which also loses information, outperformed concatenation by 4\% (which is statistically significant at the 0.01\% level) on the coordinate task.
+We have also shown that the choice of vector operation is significant.  Whilst concatenating the vectors, and therefore retaining all of the information from both vectors including direction, generally performs well, we have also shown that different vector operations are useful in establishing different relationships.  In particular, the vector difference operation, which loses information about the original vectors, achieved performance indistinguishable from concatenation on the entailment task.  The addition operation, which also loses information, outperformed concatenation by 4\% (which is statistically significant at the 0.01\% level) on the coordinate task.
 
 We have also shown that it is possible to outperform  state-of-the-art unsupervised methods even when a data set has been constructed without  ontological information, and when target words have not previously been seen in that position of a relationship in the training data.  Hence, we believe the supervised methods are learning characteristics of the underlying feature space which are generalisable to new words (inhabiting the same feature space).  
 
