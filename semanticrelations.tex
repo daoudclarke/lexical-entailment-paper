@@ -72,7 +72,7 @@ creature 0.23&elephant 0.25&rat 0.23\\
 \hline
 \end{tabular}
 \label{table:neighbours}
-\caption{Top 15 neighbours of \texttt{cat}, \texttt{animal} and \texttt{dog} generated using Lin's similarity measure \cite{Lin1998} considering all words and dependency features occurring 100 or more times in Wikipedia}
+\caption{Top 15 neighbours of \texttt{cat}, \texttt{animal} and \texttt{dog} generated using Lin's similarity measure \cite{Lin1998} considering all words and dependency features occurring 100 or more times in Wikipedia.}
 \end{table}
 
 Distributional similarity is being deployed (e.g., \newcite{Dinu2012}) in situations where it can be useful to be able to distinguish between these different relationships. Consider the following two sentences.
@@ -232,7 +232,7 @@ We constructed linear SVMs for each of the vector operations outlined
 in Section \ref{sect:representations}.  We used linear SVMs for speed
 and simplicity, since the point is to compare the different vector
 representations of the pairings. For comparison, we also constructed a
-number supervised, unsupervised, and weakly supervised
+number of supervised, unsupervised, and weakly supervised
 classifiers. These are listed in Table~\ref{table:classifiers}. We
 used the scikit-learn implementations of classifiers with default
 settings. For $k$ nearest neighbours, we performed a parameter search,
@@ -369,7 +369,7 @@ balAPincP&0.54&--\\
 
 Table~\ref{table:results_ent} summarises results for the $\entBLESS$ data set and the $\coordBLESS$ data set, and Table~\ref{table:results_WN} summarises results for the $\entWN$ data sets and the $\coordWN$ data sets.  We compare average accuracy for a number of different classifiers using $2$ different vector representations (in each of the experimental setups for the BLESS data).  In all cases, standard error was less than $0.02$.
 
-On the entailment task, the SVM methods do generally outperform the unsupervised methods.  However, the best performing model is svmSING, suggesting that, for this data set, it is best to try to learn the distributional features of more general terms, rather than comparing the vector representations of the two terms under consideration.   
+On the entailment task, the SVM methods do generally outperform the unsupervised methods.  However, the best performing model is svmSING, suggesting that, for this data set, it is best to try to learn the distributional features of more general terms, rather than comparing the vector representations of the two terms under consideration.
 
 On the coordinate task, the best performing classifier is the cosine measure. The poor performance of the SVM methods here can perhaps be explained by the paucity of the training data in this experimental set up with this data set.  If, for example, our test concept is \texttt{robin}, under the \texttt{holdback2} approach, we will not have any training pairs containing \texttt{robin}, or any training pairs containing any of the words to which \texttt{robin} is related in the data set.  It is this that motivated our approach to the construction of the WordNet data sets. In particular, we require that each word only be present once in each position of a pair --- allowing us to remove the implicit ontological information from the training set, without removing all knowledge of the distributional features of words in the target domain.
 
@@ -407,7 +407,7 @@ Looking at the results for the $\entWN$ data set in Table \ref{table:results_WN}
 
 Looking at the results for the $\coordWN$ data set, it is clear that the unsupervised methods cannot distinguish the co-hyponym pairs from the entailing pairs.  The supervised SVM methods do substantially better, with the best performance achieved by svmADD and svmCAT.  Both of these methods essentially retain information about all of the features of both words.  svmMULT does much better than svmDIFF, which suggests that the shared features are more indicative than the non-shared features for this task. 
 
-The reasonably high performance of svmSING on both data sets suggests that words which have co-hyponyms in the data set tend to inhabit a somewhat different part of the feature space to words which are included as entailed words in the data set.  We hypothesise that there are specific features which more general words tend to share (regardless of their topic) which makes it possible to identify more general words from more specific words.  This phenomena is also observed in the BLESS data set which suggests that it is not simply an artefact of this particular data.
+The reasonably high performance of svmSING on both data sets suggests that words which have co-hyponyms in the data set tend to inhabit a somewhat different part of the feature space to words which are included as entailed words in the data set.  We hypothesise that there are specific features which more general words tend to share (regardless of their topic) which makes it possible to identify more general words from more specific words.  This phenomenon is also observed in the BLESS data set which suggests that it is not simply an artefact of this particular data.
 
 The performance of the balAPincP measure is lower than expected on the
 $\entWN$ dataset. Our task is slightly different to that of
@@ -434,9 +434,12 @@ is much more significant than this residual ontological information.
 
 \section{Conclusions and Further Work}
 
-We have shown that it is possible to predict whether
+We have shown that it is possible to predict to a large extent whether
 or not there is a specific semantic relation between two words given
-their distributional vectors, using a supervised approach based on linear SVMs. The   increase in accuracy over unsupervised methods is significant at the 0.01\% level and corresponds to a substantial reduction in error rate (over 15\%).
+their distributional vectors, using a supervised approach based on
+linear SVMs. The   increase in accuracy over unsupervised methods is
+significant at the 0.01\% level and corresponds to a substantial
+absolute reduction in error rate (over 15\%).
 
 We have also shown that the choice of vector operation is significant.  Whilst concatenating the vectors, and therefore retaining all of the information from both vectors including direction, generally performs well, we have also shown that different vector operations are useful in establishing different relationships.  In particular, the vector difference operation which loses information about the original vectors, achieved performance indistinguishable from concatenation on the entailment task.  The addition operation, which also loses information, outperformed concatenation by 4\% (which is statistically significant at the 0.01\% level) on the coordinate task.
 
