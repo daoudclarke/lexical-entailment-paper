@@ -159,6 +159,9 @@ Most recently, \newcite{rei-briscoe:2013:NAACL-HLT} note that hyponyms are well 
 
 \section{Methodology}
 
+The code used to perform our experiments has been open sourced, and is
+available online.\footnote{URL withheld to preserve anonymity.}
+
 \subsection{Vector Representations}
 \label{sect:representations}
 
@@ -208,7 +211,15 @@ Distributional information was collected for all of the nouns from Wikipedia pro
 
 \subsection{Classifiers}
 
-We constructed linear SVMs for each of the vector operations outlined in Section \ref{sect:representations}.  We used linear SVMs for speed and simplicity, since the point is to compare the different vector representations of the pairings.  For comparison, we also constructed a number supervised, unsupervised, and  weakly supervised classifiers. These are listed in Table~\ref{table:classifiers}.  
+We constructed linear SVMs for each of the vector operations outlined
+in Section \ref{sect:representations}.  We used linear SVMs for speed
+and simplicity, since the point is to compare the different vector
+representations of the pairings. For comparison, we also constructed a
+number supervised, unsupervised, and weakly supervised
+classifiers. These are listed in Table~\ref{table:classifiers}. We
+used the scikit-learn implementations of classifiers with default
+settings. For $k$ nearest neighbours, we performed a parameter search,
+using nested cross-validation, varying $k$ between 1 and 50.
 
 
 
@@ -221,7 +232,7 @@ We constructed linear SVMs for each of the vector operations outlined in Section
 \emph{svmADD}& A linear SVM trained on the vector sum $v_B + v_A$\\
 \emph{svmCAT}& A linear SVM trained on the vector concatenation $v_B\oplus v_A$\\
 \emph{svmSING}& A linear SVM trained on the vector $v_B$\\
-\emph{knnDIFF}& k nearest neighbours (knn) trained on the vector difference $v_B - v_A$.$1< k<50$\\
+\emph{knnDIFF}& $k$ nearest neighbours (knn) trained on the vector difference $v_B - v_A$.$1< k<50$\\
 \hline
 \emph{widthdiff}& $\width{B} > \width{A} \rightarrow\rel{A,B}$  where $\width{A}$ is  number of non-zero features in $A$\\
 \emph{singlewidth}& $\width{B} > p \rightarrow \rel{A,B}$\\
