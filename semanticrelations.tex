@@ -308,21 +308,23 @@ knnDIFF&0.54&0.58\\
 \hline
 most freq&0.54&0.61\\
 cosineP&0.53&\textbf{0.79}\\
+linP&0.54&\textbf{0.78}\\
 widthdiff&0.56&--\\
 singlewidth&0.58&--\\
+CRdiff&0.52&--\\
+clarkediff&0.43&--\\
 invCLP&0.54&--\\
 balAPinc&0.54&--\\
 \hline
 \end{tabular}
-\caption{Accuracy Figures for the $\entBLESS$ and
-  $\coordBLESS$ data sets (standard errors $<$ 0.02). For
-  $\coordBLESS$, results for measures designed to detect hyponymy
-  have been omitted.}
+\caption{Accuracy Figures for the data sets generated from BLESS
+  (standard errors $<$ 0.02). For cohyponyms, results for measures
+  designed to detect hyponymy have been omitted.}
 \label{table:results_ent}
 \end{table}
 
 
-Table~\ref{table:results_ent} summarises results for the $\entBLESS$ data set and the $\coordBLESS$ data set, and Table~\ref{table:results_WN} summarises results for the $\entWN$ data sets and the $\coordWN$ data sets.  We compare average accuracy for a number of different classifiers using $2$ different vector representations (in each of the experimental setups for the BLESS data).  In all cases, standard error was less than $0.02$.  For brevity we omit some of the classifiers which performed worse than (or not significantly differently to) other similar classifiers.  In particular, cosineP generally performed marginally better than linP; CRdiff and clarkediff were indistinguishable in performance and generally performed similarly to invCLP and widthdiff.
+Table~\ref{table:results_ent} summarises results for the $\entBLESS$ data set and the $\coordBLESS$ data set, and Table~\ref{table:results_WN} summarises results for the $\entWN$ data sets and the $\coordWN$ data sets.  We compare average accuracy for a number of different classifiers using $2$ different vector representations (in each of the experimental setups for the BLESS data).  In all cases, standard error was less than $0.02$.
 
 On the entailment task, the SVM methods do generally outperform the unsupervised methods.  However, the best performing model is svmSING, suggesting that, for this data set, it is best to try to learn the distributional features of more general terms, rather than comparing the vector representations of the two terms under consideration.   
 
@@ -343,15 +345,18 @@ knnDIFF&0.50&0.50\\
 \hline
 most freq&0.50&0.50\\
 cosineP&0.53&0.50\\
+linP&0.52&0.55\\
 widthdiff&0.70&--\\
 singlewidth&0.65&--\\
+CRdiff&0.70&--\\
 clarkediff&0.70&--\\
 invCLP&0.66&--\\
-balAPinc&0.54&--\\
+balAPinc&0.53&--\\
 \hline
 \end{tabular}
-\caption{Accuracy Figures for $\entWN$ and $\coordWN$ (standard errors $<$
-  0.02).}
+\caption{Accuracy Figures for datasets generated from WordNet
+  (standard errors $<$ 0.02). For cohyponyms, results for measures
+  designed to detect hyponymy have been omitted.}
 \label{table:results_WN}
 \end{table}
 
