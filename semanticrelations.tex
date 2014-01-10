@@ -176,11 +176,15 @@ table \ref{table:classifiers}.
 
 Of these measures, the vector difference (\emph{svm\-DIFF} and
 \emph{knnDIFF}) and direct sum (\emph{svmCAT}) are asymmetric, whereas
-the sum and pointwise multiplication (\emph{svmADD} and \emph{svmMULT})
-are symmetric. Note that these methods behave in very different ways,
-for example, vector difference produces smaller vectors when given
-similar vectors, whereas pointwise multiplication produces larger
-vectors when the inputs are similar.
+the sum and pointwise multiplication (\emph{svmADD} and
+\emph{svmMULT}) are symmetric. Note that these methods behave in very
+different ways, for example, vector difference produces smaller
+vectors when given similar vectors, whereas pointwise multiplication
+produces larger vectors when the inputs are similar. Also, it is
+important to note that the behaviour of these methods differs
+depending on the weighting used for vectors: for example, since our
+vectors are weighted using PMI, vector addition would correspond to
+pointwise multiplication if we had used frequencies for vectors.
 
 % Vector difference produces small vectors when given
 % similar vectors. It does not distinguish cases where two
