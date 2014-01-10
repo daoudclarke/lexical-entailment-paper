@@ -215,13 +215,16 @@ features used were grammatical dependency features (also occurring
 $100$ or more times) extracted using the MALT parser~\cite{Nivre2006}.
 The value of each feature is the (positive) PMI between the noun and
 the feature. The total number of noun vectors which can be harvested
-from Wikipedia with these parameters is $124,345$.  Random $1000$
-dimensional vectors were also constructed in order to be able to
-assess the impact of using distributional information over a system
-which simply learns the implied taxonomy in the training data and
-applies it to the test data.  The dimensionality of the random vectors
-was chosen to be $1000$ since this substantially exceeds the average
-number ($398$) of non-zero features in the Wikipedia vectors.
+from Wikipedia with these parameters is $124,345$.
+
+Because of the nature of our datasets, we were concerned that systems
+could learn information about the taxonomy from the relations in the
+training data, without making use of information in the vectors
+themselves. To investigate this, we constructed random vectors to be
+used in place of the vectors derived from Wikipedia. The
+dimensionality of the random vectors was chosen to be $1000$ since
+this substantially exceeds the average number ($398$) of non-zero
+features in the Wikipedia vectors.
 
 \subsection{Classifiers}
 
@@ -439,8 +442,11 @@ We have also shown that the choice of vector operation is significant.  Whilst c
 
 We have also shown that it is possible to outperform  state-of-the-art unsupervised methods even when a data set has been constructed without  ontological information, and when target words have not previously been seen in that position of a relationship in the training data.  Hence, we believe the supervised methods are learning characteristics of the underlying feature space which are generalisable to new words (inhabiting the same feature space).  
 
-In future work, we intend to apply this approach to the problem of labelling the distributional neighbours found for a given word
- with specific semantic relations.
+In future work, we intend to apply this approach to the problem of
+labelling the distributional neighbours found for a given word with
+specific semantic relations. We also plan to investigate the use of
+bag-of-words (windowed) vectors instead of grammatical relations for
+this task.
 
 Finally, we believe that the data sets constructed from WordNet, which we publish alongside this paper,  can be used as a useful benchmark in evaluating future advances in this area, both for supervised and unsupervised methods.
 
