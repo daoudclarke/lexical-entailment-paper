@@ -19,7 +19,7 @@
 \newcommand\pair[2]{$\langle$\texttt{#1} ISA \texttt{#2}$\rangle$}
 
 \title{Learning to Distinguish Hypernyms and Co-Hyponyms}
-\author{Julie Weeds, Daoud Clarke, Jeremy Reffin, Bill Keller and David Weir\\ Department of Informatics,\\ University of Sussex,\\ Brighton, UK\\ {\tt juliewe,dc34,J.P.Reffin,billk,davidw@sussex.ac.uk}}
+\author{Julie Weeds, Daoud Clarke, Jeremy Reffin, Bill Keller and David Weir\\ Department of Informatics,\\ University of Sussex,\\ Brighton, UK\\ {\tt juliewe,D.Clarke,J.P.Reffin,billk,davidw@sussex.ac.uk}}
 
 %\author{First Author \\
 %  Affiliation / Address \\
@@ -157,7 +157,7 @@ Most recently, \newcite{rei-briscoe:2013:NAACL-HLT} note that hyponyms are well 
 \section{Methodology}
 
 The code used to perform our experiments has been open sourced, and is
-available online.\footnote{\url{https://github.com/daoudclarke/coneexperiment}}
+available online.\footnote{\url{https://github.com/SussexCompSem/learninghypernyms}}
 
 \subsection{Vector Representations}
 \label{sect:representations}
@@ -268,7 +268,7 @@ measure exceeds $p$.
 \subsection{Data Sets}
 \label{sect:data}
 
-One of key the challenges of this work has been to construct a data set which accurately and validly tests our hypotheses.  All four of our datasets detailed below are available online \footnote{\url{https://github.com/daoudclarke/coneexperiment}}.
+One of key the challenges of this work has been to construct a data set which accurately and validly tests our hypotheses.  All four of our datasets detailed below are available online \footnote{\url{https://github.com/SussexCompSem/learninghypernyms}}.
 
 In order to test our hypotheses, a data set needs to be balanced in many respects in order to prevent the supervised classifiers making use of artefacts of the data.  This would not only make it unfair to compare the supervised approaches with the unsupervised approaches, but also make it unlikely that our results would be generalisable to other data.  Here, we outline the requirements for the data sets, the importance of which is demonstrated by our initial results for a data set which does not satisfy all of them.
 
@@ -294,7 +294,7 @@ We have constructed two  data sets from BLESS~\cite{Baroni2011} which is a colle
 
 \smallskip
 
-In both cases the pairs are labelled as positive or negative for the specified semantic relation and in both cases there are equal ($\pm 1$) numbers of positive and negative examples.  For 99\% of the generated BLESS pairs, both nouns had associated vectors harvested from Wikipedia.  If a noun does not have an associated vector, the classifiers uses a zero vector.  
+In both cases the pairs are labelled as positive or negative for the specified semantic relation and in both cases there are equal ($\pm 1$) numbers of positive and negative examples.  For 99\% of the generated BLESS pairs, both nouns had associated vectors harvested from Wikipedia.  If a noun does not have an associated vector, the classifiers use a zero vector.  
 
 \subsubsection{WordNet}
 
@@ -322,7 +322,7 @@ classifiers are trained on the remaining four, and this process is
 repeated using each subset as the test set.
 
 In initial experiments with the BLESS datasets, the SVM classifiers were able to achieve classification accuracy of over 95\% for $\entBLESS$ and over 90\% for $\coordBLESS$.  However, the results using random vectors were not significantly different from
-using the Wikipedia distributional vectors from Wikipedia.  This indicated that the classifiers were
+using the distributional vectors harvested from Wikipedia.  This indicated that the classifiers were
 learning ontological information implicit in the training data. In
 order to address this, when using the BLESS datasets, we removed any pair from the training data if
 either word was present in the test data. In order to preserve a
@@ -389,7 +389,7 @@ In Table~\ref{table:results_ent}, we compare average accuracy for a number of di
 
 Looking at the results for the $\entBLESS$ data set, we can see that the SVM methods do generally outperform the unsupervised methods.  However, the best performing model is svmSING, suggesting that, for this data set, it is best to try to learn the distributional features of more general terms, rather than comparing the vector representations of the two terms under consideration.
 
-On the corresponding co-hyponym task, using the $\coordBLESS$ data set, we see the best performing classifier is the cosine measure. The cosine measure is able to perform relatively well here because a substantial proportion of the negative examples (25\%) are random unrelated words which will have low cosine scores.  It is also consistent with earlier work (e.g., \cite{Lenci2012}) which suggest that measures such as the cosine measure ``prefer" words in symmetric semantic relationships such as co-hyponymy.  The poor performance of the SVM methods here can perhaps be explained by the paucity of the training data in this experimental set up with this data set.  If, for example, our test concept is \texttt{robin}, our approach requires that we will not have any training pairs containing \texttt{robin}, or any training pairs containing any of the words to which \texttt{robin} is related in the test set.  In a dataset as small as BLESS, this requirement effectively removes all knowledge of the the distributional features of words in the target domain.  Hence, the need for a larger dataset as we have extracted from WordNet.
+On the corresponding co-hyponym task, using the $\coordBLESS$ data set, we see the best performing classifier is the cosine measure. The cosine measure is able to perform relatively well here because a substantial proportion of the negative examples (25\%) are random unrelated words which will have low cosine scores.  It is also consistent with earlier work (e.g., \cite{Lenci2012}) which suggests that measures such as the cosine measure ``prefer" words in symmetric semantic relationships such as co-hyponymy.  The poor performance of the SVM methods here can perhaps be explained by the paucity of the training data in this experimental set up with this data set.  If, for example, our test concept is \texttt{robin}, our approach requires that we will not have any training pairs containing \texttt{robin}, or any training pairs containing any of the words to which \texttt{robin} is related in the test set.  In a dataset as small as BLESS, this requirement effectively removes all knowledge of the distributional features of words in the target domain.  Hence, the need for a larger dataset as we have extracted from WordNet.
 
 Looking at the results for the $\entWN$ data set, the directional SVM methods (\emph{svmDIFF} and \emph{svmCAT})  substantially outperform the symmetric SVM methods, and their performance is significantly better (at the 0.01\% level) than the unsupervised methods.  Also of note is the substantial difference between \emph{svmDIFF} and \emph{knnDIFF}.  Both of these methods are trained on the differences of vectors.  However, the linear SVM outperforms kNN by 19--25\%.  This may suggest that the shape of the vector space inhabited by the positive entailment pairs is particularly conducive for learning a linear SVM.  Positive and negative pairs are close together (as evidenced by the poor performance of \emph{kNN}), but generally linearly separable.
 
@@ -428,7 +428,7 @@ Finally, we believe that the data sets constructed from WordNet, which we publis
 \section*{Acknowledgements}
 This work was funded by UK EPSRC project EP/IO37458/1 ``A Unified Model of Compositional and Distributional Compositional Semantics: Theory and Applications''.
 
-\newpage
+%\newpage
 
 \bibliographystyle{acl}
 \bibliography{JW2012}
