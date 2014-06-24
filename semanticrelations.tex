@@ -31,6 +31,8 @@
 \date{} % Activate to display a given date or no date (if empty),
          % otherwise the current date is printed 
 
+
+
 \begin{document}
 
 \maketitle
@@ -46,7 +48,9 @@ Over recent years there has been much interest in the field of distributional se
 In early research there was much interest in how these automatically generated thesauri compare with human-constructed gold standards such as WordNet and Roget \cite{Lin1998,Kilgarriff2000}.  More recently, the focus has tended to shift to building thesauri to alleviate the sparse-data problem.  Distributional thesauri have been used in a wide variety of areas including sentiment classification~\cite{Bollegala2011}, WSD~\cite{miller-EtAl:2012:PAPERS,khapra-EtAl:2010:ACL}, textual entailment~\cite{berant-dagan-goldberger:2010:ACL}, predicting semantic compositionality~\cite{bergsma-EtAl:2010:EMNLP}, acquisition of semantic lexicons~\cite{mcintosh:2010:EMNLP}, conversation entailment~\cite{zhang-chai:2010:EMNLP}, lexical substitution~\cite{szarvas-biemann-gurevych:2013:NAACL-HLT}, taxonomy induction~\cite{fountain-lapata:2012:NAACL-HLT}, and parser lexicalisation~\cite{rei-briscoe:2013:NAACL-HLT}.  
 
 A primary focus of distributional semantics has been on identifying words which are similar to each other. However, semantic similarity encompasses a variety of different lexico-semantic and topical relations.  Even if we just consider nouns, an automatically generated thesaurus will tend to return a mix of synonyms, antonyms, hyponyms, hypernyms, co-hyponyms, meronyms and other topically related words.  A central problem here is that whilst most measures of distributional similarity are symmetric, some of the important semantic relations are not.  The hyponymy relation (and converse hypernymy) which forms the ISA backbone of taxonomies and ontologies such as WordNet~\cite{Fellbaum:98}, and determines lexical entailment \cite{Geffet2005}, is asymmetric. On the other hand, the co-hyponymy relation which relates two words unrelated by hyponymy but sharing a (close) hypernym, is symmetric, as are synonymy and antonymy. Table \ref{table:neighbours} shows the distributionally nearest neighbours of the words \texttt{cat}, \texttt{animal} and \texttt{dog}. %using the Byblo software {\bf comment: reference??} and Wikipedia.  
-In the list for \texttt{cat} we can see 2 hypernyms and 13 co-hyponyms\footnote{We read \texttt{cat} in the sense \texttt{domestic cat} rather than \texttt{big cat}, hence \texttt{tiger} is a co-hyponym rather than hyponym of \texttt{cat}}. 
+In the list for \texttt{cat} we can see 2 hypernyms and 13 co-hyponyms\footnote{We read \texttt{cat} in the sense \texttt{domestic cat} rather than \texttt{big cat}, hence \texttt{tiger} is a co-hyponym rather than hyponym of \texttt{cat}.}. 
+
+\blfootnote{This work is licensed under a Creative Commons Attribution 4.0 International Licence.  Page numbers and proceedings footer are added by the organisers.  Licence details: http://creativecommons.org/licenses/by/4.0/}
 
 \begin{table}[ht]
 \begin{tabular}{|l|p{14cm}|}
